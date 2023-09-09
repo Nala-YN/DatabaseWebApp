@@ -57,7 +57,7 @@ export default {
   background: url("../assets/image/backgroundOfLogin.jpg");
   background-size: cover;
   position: absolute;
-  top: -20px;
+  top: -10px;
   bottom: -20px;
   left: -20px;
   right: -20px;
