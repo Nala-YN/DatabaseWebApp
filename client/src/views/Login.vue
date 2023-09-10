@@ -7,32 +7,20 @@
       <div class="header">music manage</div>
       <div class="input-wrapper">
         <div class="border-wrapper">
-          <input
-            type="text"
-            name="username"
-            placeholder="username"
-            class="border-item"
-            autocomplete="off"
-            v-model="username"
-          />
+          <input type="text" name="username" placeholder="username" class="border-item" autocomplete="off"
+            v-model="username" />
         </div>
         <div class="border-wrapper">
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            class="border-item"
-            autocomplete="off"
-            v-model="password"
-          />
+          <input type="password" name="password" placeholder="password" class="border-item" autocomplete="off"
+            v-model="password" />
         </div>
       </div>
       <div class="action">
         <el-button class="btn" :plain="true" @click="submit">登录</el-button>
         <el-button class="btn" :plain="true" @click="submit">注册</el-button>
       </div>
-      <br/>
-      <h3>{{message}}</h3>
+      <br />
+      <h3>{{ message }}</h3>
     </div>
   </div>
 </template>
@@ -40,26 +28,33 @@
 <script >
 import { ElMessage } from 'element-plus'
 import { Text } from 'vue';
+import axios from 'axios'
 // @ is an alias to /src
 export default {
-    name: "LoginView",
-    data() {
-        return {
-            username: "",
-            password: "",
-            message:"",
-        };
-    },
-    methods: {
-        submit() {
-            this.message="登录失败"
-            this.username=""
-            this.password=""
-        }
-    },
+  name: "LoginView",
+  data() {
+    return {
+      username: "",
+      password: "",
+      message: "",
+    };
+  },
+  methods: {
+    submit() {
+      console.log("我要登陆了")
+      axios.post('http://127.0.0.1:8000/login', {
+        username: "114514",
+        password: 1919810
+      },)
+        .then(response => {
+          console.log(response.data.success)
+          this.message = response.data.success == true ? "登陆成功" : "登陆失败"
+        })
+    }
+  },
 };
 </script>
-  <style scoped>
+<style scoped>
 #body {
   display: flex;
   flex-direction: row;
@@ -69,6 +64,7 @@ export default {
   overflow: hidden;
   margin: 0;
 }
+
 #background {
   background: url("../assets/image/backgroundOfLogin.jpg");
   background-size: cover;
@@ -79,6 +75,7 @@ export default {
   right: -20px;
   z-index: -1;
 }
+
 .form-wrapper {
   width: 300px;
   background-color: rgba(248, 136, 7, 0.8);
@@ -141,7 +138,7 @@ export default {
 }
 
 .form-wrapper .action .btn:hover {
-    background-color: rgba(233, 189, 139, 0.8);
+  background-color: rgba(233, 189, 139, 0.8);
 }
 
 .form-wrapper .icon-wrapper {
@@ -152,6 +149,7 @@ export default {
   border-top: 1px dashed rgb(146, 146, 146);
   padding: 20px;
 }
+
 .el-message {
   max-width: 300px;
   position: fixed;
@@ -159,6 +157,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .form-wrapper .icon-wrapper i {
   font-size: 20px;
   color: rgb(187, 187, 187);

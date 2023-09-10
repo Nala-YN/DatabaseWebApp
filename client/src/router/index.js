@@ -3,7 +3,7 @@ import LoginView from '../views/Login.vue'
 import WhichView from '../views/Which.vue'
 const routes = [
   {
-    path:'/login',
+    path:'/',
     name:'login',
     component:LoginView
   },
