@@ -28,19 +28,35 @@
         </div>
       </div>
       <div class="action">
-        <button class="btn" type="submit" @click="submit">登录</button>
-        <button class="btn" type="submit" @click="register">注册</button>
+        <el-button class="btn" :plain="true" @click="submit">登录</el-button>
+        <el-button class="btn" :plain="true" @click="submit">注册</el-button>
       </div>
+      <br/>
+      <h3>{{message}}</h3>
     </div>
   </div>
 </template>
 
-<script>
+<script >
+import { ElMessage } from 'element-plus'
+import { Text } from 'vue';
 // @ is an alias to /src
-
 export default {
-  name: "LoginView",
-  
+    name: "LoginView",
+    data() {
+        return {
+            username: "",
+            password: "",
+            message:"",
+        };
+    },
+    methods: {
+        submit() {
+            this.message="登录失败"
+            this.username=""
+            this.password=""
+        }
+    },
 };
 </script>
   <style scoped>
@@ -84,7 +100,7 @@ export default {
   width: 100%;
   text-align: center;
   font-size: 15px;
-  color: #fff;
+  color: rgb(96, 93, 9);
   outline: none;
 }
 
@@ -136,7 +152,13 @@ export default {
   border-top: 1px dashed rgb(146, 146, 146);
   padding: 20px;
 }
-
+.el-message {
+  max-width: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .form-wrapper .icon-wrapper i {
   font-size: 20px;
   color: rgb(187, 187, 187);
