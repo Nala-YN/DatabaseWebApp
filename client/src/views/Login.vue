@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="action">
-        <el-button class="btn" :plain="true" @click="submit">登录</el-button>
-        <el-button class="btn" :plain="true" @click="submit">注册</el-button>
+        <el-button class="btn" :plain="true" @click="goToLogin">登录</el-button>
+        <el-button class="btn" :plain="true" @click="goToRegister">注册</el-button>
       </div>
       <br />
       <h3>{{ message }}</h3>
@@ -36,20 +36,34 @@ export default {
     return {
       username: "",
       password: "",
-      message: "",
+      message: "login message",
     };
   },
   methods: {
-    submit() {
+    goToLogin() {
       console.log("我要登陆了")
       axios.post('http://127.0.0.1:8000/login', {
         username: "114514",
         password: 1919810
       },)
-        .then(response => {
-          console.log(response.data.success)
-          this.message = response.data.success == true ? "登陆成功" : "登陆失败"
-        })
+      .then(response => {
+        console.log(response.data.success)
+        this.message = response.data.success == true ? "登陆成功" : "登陆失败"
+        /*if (response.data.success === true) {
+          // 登录成功，使用编程式导航跳转到主页面
+          this.$router.push({ name: 'Main' });
+        } else {
+          // 登录失败，显示错误消息
+          this.message = "登录失败";
+        }*/
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
+    goToRegister() {
+      // 使用编程式导航跳转到注册页面
+      this.$router.push({ name: 'register' });
     }
   },
 };
