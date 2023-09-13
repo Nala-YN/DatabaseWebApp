@@ -39,7 +39,7 @@
           </div>
           <div class="right">
             <h3 class="h3">你好，</h3>
-            <el-button size="large" icon="UserFilled" @click="gotoUserPage" circle=true plain=true>
+            <el-button size="large" icon="UserFilled" @click="gotoUserPage" :circle=true :plain=true>
             </el-button>
           </div>
         </el-header>
@@ -47,8 +47,8 @@
           <div v-if="mainContent === 'home'">
             <mainPage @update-content="mainContent = $event"></mainPage>
           </div>
-          <div v-if="mainContent === 'cart'">这是购物车的内容</div>
-          <div v-if="mainContent === 'bought'">这是已购买的内容</div>
+          <div v-if="mainContent === 'cart'"><cart></cart></div>
+          <div v-if="mainContent === 'bought'"><bought></bought></div>
           <div v-if="mainContent === 'userInfo'">这是用户界面</div>
           <div v-if="mainContent === 'shopping'">这是购买界面</div>
           <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
@@ -59,12 +59,14 @@
   </div>
 </template>
 <script>
-import mainPage from '@/components/mainPage.vue'
+import mainPage from '@/components/MainPage.vue'
+import cart from '@/components/Cart.vue'
+import bought from '@/components/Bought.vue'
 export default {
   name: "MainView",
   data() {
     return {
-      mainContent: 'home',
+      mainContent: 'bought',
       isCollapse: true,
     };
   },
@@ -88,7 +90,7 @@ export default {
       this.mainContent='selling';
     }
   },
-  components: { mainPage }
+  components: { mainPage ,cart,bought}
 }
 </script>
 <style scoped>
