@@ -50,7 +50,7 @@
           <div v-if="mainContent === 'cart'"><cart></cart></div>
           <div v-if="mainContent === 'bought'"><bought></bought></div>
           <div v-if="mainContent === 'userInfo'">这是用户界面</div>
-          <div v-if="mainContent === 'shopping'">这是购买界面</div>
+          <div v-if="mainContent === 'shopping'"><shopping></shopping></div>
           <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
           <div v-if="mainContent === 'selling'">我已出售</div>
         </el-main>
@@ -59,9 +59,11 @@
   </div>
 </template>
 <script>
-import mainPage from '@/components/MainPage.vue'
-import cart from '@/components/Cart.vue'
+import mainPage from '@/components/mainPage.vue'
+import cart from '@/components/cart.vue'
 import bought from '@/components/Bought.vue'
+import shopping from '@/components/Shopping.vue'
+
 export default {
   name: "MainView",
   data() {
@@ -88,9 +90,12 @@ export default {
     },
     seeSelling(){
       this.mainContent='selling';
+    },
+    gotoShopping() {
+      this.mainContent='shopping';
     }
   },
-  components: { mainPage ,cart,bought}
+  components: { mainPage, cart, bought, shopping }
 }
 </script>
 <style scoped>

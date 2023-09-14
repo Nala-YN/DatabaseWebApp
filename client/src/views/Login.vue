@@ -42,6 +42,7 @@ export default {
   methods: {
     goToLogin() {
       console.log("我要登陆了")
+      this.$router.push({ name: 'Main' });
       axios.post('http://127.0.0.1:8000/login', {
         username: "114514",
         password: 1919810
