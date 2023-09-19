@@ -4,24 +4,20 @@ import MainView from '../views/Main.vue'
 import RegisterView from '../components/Register.vue'
 
 
-/* 检查用户是否已经登录，如果没有登录，则将用户重定向到登录页面：
-   to 参数表示用户要进入的路由，from 参数表示用户来自的路由，
-   next 函数用于控制路由的跳转 */
+/* 锟斤拷锟斤拷没锟斤拷欠锟斤拷丫锟斤拷锟铰硷拷锟斤拷锟斤拷没锟叫碉拷录锟斤拷锟斤拷锟矫伙拷锟截讹拷锟津到碉拷录页锟芥：
+   to 锟斤拷锟斤拷锟斤拷示锟矫伙拷要锟斤拷锟斤拷锟铰凤拷桑锟絝rom 锟斤拷锟斤拷锟斤拷示锟矫伙拷锟斤拷锟皆碉拷路锟缴ｏ拷
+   next 锟斤拷锟斤拷锟斤拷锟节匡拷锟斤拷路锟缴碉拷锟斤拷转 */
 /*import router from 'vue-router'
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = true;  // 判断条件是啥
+  const isAuthenticated = true;  // 锟叫讹拷锟斤拷锟斤拷锟斤拷啥
   if (to.name !== 'login' && !isAuthenticated) {
-    next({ name: 'login' });  // 重定向到登录界面
+    next({ name: 'login' });  // 锟截讹拷锟津到碉拷录锟斤拷锟斤拷
   } else {
-    next();  // 继续正常导航
+    next();  // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
   }
 });*/
 
 const routes = [
-  {  // 将默认路由重定向到登录页面
-    path: '/',
-    redirect: '/login'
-  },
   {
     path:'/login',
     name:'login',

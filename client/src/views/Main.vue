@@ -53,22 +53,25 @@
           <div v-if="mainContent === 'shopping'"><shopping></shopping></div>
           <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
           <div v-if="mainContent === 'selling'">我已出售</div>
+          <div v-if="mainContent==='boughtHistory'"><boughtHistory></boughtHistory></div>
+          <div v-if="mainContent==='detail'"><detail></detail></div>
         </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 <script>
-import mainPage from '@/components/mainPage.vue'
-import cart from '@/components/cart.vue'
+import mainPage from '@/components/MainPage.vue'
+import cart from '@/components/Cart.vue'
 import bought from '@/components/Bought.vue'
 import shopping from '@/components/Shopping.vue'
-
+import detail from '@/components/Detail.vue'
+import boughtHistory from '@/components/BoughtHistory.vue'
 export default {
   name: "MainView",
   data() {
     return {
-      mainContent: 'bought',
+      mainContent: 'boughtHistory',
       isCollapse: true,
     };
   },
@@ -95,7 +98,7 @@ export default {
       this.mainContent='shopping';
     }
   },
-  components: { mainPage, cart, bought, shopping }
+  components: { mainPage, cart, bought, shopping, detail,boughtHistory}
 }
 </script>
 <style scoped>
