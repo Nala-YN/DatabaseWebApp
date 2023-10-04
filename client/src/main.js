@@ -11,6 +11,5 @@ const app=createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
-
 app.use(ElementPlus).use(store).use(VTooltip).use(router).mount('#app')
             

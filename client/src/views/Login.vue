@@ -4,7 +4,7 @@
     <div id="background"></div>
     <!--输入框-->
     <div class="form-wrapper">
-      <div class="header">music manage</div>
+      <div class="header">书觅</div>
       <div class="input-wrapper">
         <div class="border-wrapper">
           <input type="text" name="username" placeholder="username" class="border-item" autocomplete="off"
@@ -20,15 +20,13 @@
         <el-button class="btn" :plain="true" @click="goToRegister">注册</el-button>
       </div>
       <br />
-      <h3>{{ message }}</h3>
     </div>
   </div>
 </template>
 
 <script >
-import { ElMessage } from 'element-plus'
-import { Text } from 'vue';
-import axios from 'axios'
+import axios from 'axios';
+import { ElMessage } from 'element-plus';
 // @ is an alias to /src
 export default {
   name: "LoginView",
@@ -36,27 +34,27 @@ export default {
     return {
       username: "",
       password: "",
-      message: "login message",
     };
   },
   methods: {
     goToLogin() {
       console.log("我要登陆了")
-      this.$router.push({ name: 'Main' });
       axios.post('http://127.0.0.1:8000/login', {
-        username: "114514",
-        password: 1919810
+        username: this.username,
+        password: this.password,
       },)
       .then(response => {
-        console.log(response.data.success)
-        this.message = response.data.success == true ? "登陆成功" : "登陆失败"
-        /*if (response.data.success === true) {
-          // 登录成功，使用编程式导航跳转到主页面
-          this.$router.push({ name: 'Main' });
-        } else {
-          // 登录失败，显示错误消息
-          this.message = "登录失败";
-        }*/
+        if(response.data.success===true){
+          ElMessage({
+          message:'登录成功',
+          type: 'success'})
+          this.$router.push({ name: 'main' });
+        }
+        else{
+          ElMessage({
+          message:'登录失败',
+          type: 'warning'})
+        }
       })
       .catch(error => {
         console.error(error);
@@ -84,7 +82,7 @@ export default {
   background: url("../assets/image/backgroundOfLogin.jpg");
   background-size: cover;
   position: absolute;
-  top: -20px;
+  top: -50px;
   bottom: -20px;
   left: -20px;
   right: -20px;
@@ -93,7 +91,7 @@ export default {
 
 .form-wrapper {
   width: 300px;
-  background-color: rgba(248, 136, 7, 0.8);
+  background-color: rgba(128, 128, 128, 0.8);
   color: #fff;
   border-radius: 20px;
   padding: 50px;
@@ -101,7 +99,8 @@ export default {
 
 .form-wrapper .header {
   text-align: center;
-  font-size: 35px;
+  font-size: 40px;
+  margin-bottom: 30px;
   text-transform: uppercase;
   line-height: 100px;
 }
@@ -121,7 +120,7 @@ export default {
 }
 
 .form-wrapper .input-wrapper .border-wrapper {
-  background-image: linear-gradient(to right, #e8198b, #0eb4dd);
+  background-image: linear-gradient(to right, #000000, #000000);
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
@@ -145,7 +144,7 @@ export default {
 .form-wrapper .action .btn {
   width: 60%;
   text-transform: uppercase;
-  border: 2px solid #c0d65d;
+  border: 2px solid #3d3d3d;
   text-align: center;
   line-height: 50px;
   border-radius: 30px;
@@ -153,7 +152,8 @@ export default {
 }
 
 .form-wrapper .action .btn:hover {
-  background-color: rgba(233, 189, 139, 0.8);
+  background-color: rgba(79, 79, 79, 0.8);
+  color: #000000;
 }
 
 .form-wrapper .icon-wrapper {

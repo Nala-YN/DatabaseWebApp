@@ -18,6 +18,7 @@ router.beforeEach((to, from, next) => {
 });*/
 
 const routes = [
+  { path: '/:pathMatch(.*)*', redirect: '/login' },
   {
     path:'/login',
     name:'login',
@@ -29,9 +30,9 @@ const routes = [
     component: RegisterView
   },
   {
-    path: '/',
-    name: 'Main',
-    component: MainView
+    path:'/main',
+    name:'main',
+    component:MainView
   },
   {
     path: '/about',
