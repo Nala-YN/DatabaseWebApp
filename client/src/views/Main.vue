@@ -71,7 +71,7 @@ export default {
   name: "MainView",
   data() {
     return {
-      mainContent: 'boughtHistory',
+      mainContent: 'mainPage',
       isCollapse: true,
     };
   },
