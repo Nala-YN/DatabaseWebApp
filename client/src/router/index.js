@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import LoginView from '../views/Login.vue'
 import MainView from '../views/Main.vue'
-import RegisterView from '../components/Register.vue'
+import RegisterView from '../views/Register.vue'
 
 
 /* ����û��Ƿ��Ѿ���¼�����û�е�¼�����û��ض��򵽵�¼ҳ�棺
