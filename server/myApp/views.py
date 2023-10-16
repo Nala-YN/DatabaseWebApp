@@ -7,7 +7,7 @@ from django.shortcuts import render
 def response_login(request):
     data=json.loads(request.body)
     if data.get("username")=="114514" and data.get("password")=="1919810":
-        response={'success':True}
+        response={'success':True,'userid':1,'username':"111"}
     else:
         response={'success':False}
     return JsonResponse(response)

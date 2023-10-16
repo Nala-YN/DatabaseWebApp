@@ -44,7 +44,7 @@
           </div>
         </el-header>
         <el-main>
-          <div v-if="mainContent === 'home'">
+          <div v-if="mainContent === 'mainPage'">
             <mainPage @update-content="mainContent = $event"></mainPage>
           </div>
           <div v-if="mainContent === 'cart'"><cart></cart></div>
@@ -71,6 +71,7 @@ export default {
   name: "MainView",
   data() {
     return {
+      username:"",
       mainContent: 'mainPage',
       isCollapse: true,
     };

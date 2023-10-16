@@ -4,7 +4,7 @@
       <!-- <div id="background"></div> -->
       <!--输入框-->
       <div class="form-wrapper">
-        <div class="header">创建书觅新账户</div>
+        <div class="header">创建新账户</div>
         <div v-if="step === 1" class="input-wrapper">
           <div class="border-wrapper">
             <input type="text" name="username" placeholder="username" class="border-item" autocomplete="off"

@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     goToLogin() {
-      console.log("我要登陆了")
+      console.log(this.$store.getters.status.username);
       axios.post('http://127.0.0.1:8000/login', {
         username: this.username,
         password: this.password,
@@ -47,7 +47,11 @@ export default {
         if(response.data.success===true){
           ElMessage({
           message:'登录成功',
-          type: 'success'})
+          type: 'success'});
+          var userInfo={userid:response.data.userid,
+                    username:response.data.username};
+          localStorage.setItem('loginData', JSON.stringify(userInfo))
+          this.$store.commit('setStatus', userInfo);
           this.$router.push({ name: 'main' });
         }
         else{
