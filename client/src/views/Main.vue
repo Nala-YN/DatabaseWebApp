@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-container style="height: 95vh">
-      <el-aside width="68px" class="aside">
         <el-menu default-active="2" mode="vertical" :collapse="isCollapse">
           <el-sub-menu index="1">
             <template #title>
@@ -25,36 +24,77 @@
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
-      </el-aside>
       <el-container>
         <el-header class="header">
           <div class="left">
-            <div v-if="mainContent === 'home'"><h3 class="h3">首页</h3></div>
-            <div v-if="mainContent === 'cart'"><h3 class="h3">购物车</h3></div>
-            <div v-if="mainContent === 'bought'"><h3 class="h3">我已购买</h3></div>
-            <div v-if="mainContent === 'userInfo'"><h3 class="h3">用户信息</h3></div>
-            <div v-if="mainContent === 'shopping'"><h3 class="h3">购买</h3></div>
-            <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
-            <div v-if="mainContent === 'selling'"><h3 class="h3">我已出售</h3></div>
+            <div v-if="mainContent === 'mainPage'">
+              <h3 class="h3">首页</h3>
+            </div>
+            <div v-if="mainContent === 'cart'">
+              <h3 class="h3">购物车</h3>
+            </div>
+            <div v-if="mainContent === 'bought'">
+              <h3 class="h3">我已购买</h3>
+            </div>
+            <div v-if="mainContent === 'userInfo'">
+              <h3 class="h3">用户信息</h3>
+            </div>
+            <div v-if="mainContent === 'shopping'">
+              <h3 class="h3">购买</h3>
+            </div>
+            <div v-if="mainContent === 'addselling'">
+              <h3 class="h3">添加出售</h3>
+            </div>
+            <div v-if="mainContent === 'selling'">
+              <h3 class="h3">我已出售</h3>
+            </div>
+            <div v-if="mainContent === 'userinfo'">
+              <h3 class="h3">个人信息</h3>
+            </div>
           </div>
           <div class="right">
-            <h3 class="h3">你好，</h3>
-            <el-button size="large" icon="UserFilled" @click="gotoUserPage" :circle=true :plain=true>
-            </el-button>
+            <h3 class="h3" style="padding-right: 3vh;">你好，{{ username }}</h3>
+            <!-- 把el-button放在el-dropdown的slot中 -->
+            <el-dropdown trigger="click" placement="bottom-end" :hide-on-click=false @command="handleCommand">
+              <el-button size="large" icon="UserFilled" :circle=true :plain=true></el-button>
+              <!-- 添加一个el-dropdown-menu组件 -->
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <!-- 添加两个el-dropdown-item组件 -->
+                  <el-dropdown-item command="user">个人信息</el-dropdown-item>
+                  <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </div>
         </el-header>
         <el-main>
           <div v-if="mainContent === 'mainPage'">
             <mainPage @update-content="mainContent = $event"></mainPage>
           </div>
-          <div v-if="mainContent === 'cart'"><cart></cart></div>
-          <div v-if="mainContent === 'bought'"><bought></bought></div>
+          <div v-if="mainContent === 'cart'">
+            <cart></cart>
+          </div>
+          <div v-if="mainContent === 'bought'">
+            <bought></bought>
+          </div>
           <div v-if="mainContent === 'userInfo'">这是用户界面</div>
-          <div v-if="mainContent === 'shopping'"><shopping></shopping></div>
-          <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
+          <div v-if="mainContent === 'shopping'">
+            <shopping></shopping>
+          </div>
+          <div v-if="mainContent === 'addselling'">
+            <h3 class="h3">添加出售</h3>
+          </div>
           <div v-if="mainContent === 'selling'">我已出售</div>
-          <div v-if="mainContent==='boughtHistory'"><boughtHistory></boughtHistory></div>
-          <div v-if="mainContent==='detail'"><detail></detail></div>
+          <div v-if="mainContent === 'boughtHistory'">
+            <boughtHistory></boughtHistory>
+          </div>
+          <div v-if="mainContent === 'detail'">
+            <detail></detail>
+          </div>
+          <div v-if="mainContent === 'userinfo'">
+            <userinfo></userinfo>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -66,12 +106,14 @@ import cart from '@/components/Cart.vue'
 import bought from '@/components/Bought.vue'
 import shopping from '@/components/Shopping.vue'
 import detail from '@/components/Detail.vue'
+import userinfo from '@/components/Userinfo.vue'
 import boughtHistory from '@/components/BoughtHistory.vue'
+import router from '@/router'
 export default {
   name: "MainView",
   data() {
     return {
-      username:"",
+      username: this.$store.getters.status.username,
       mainContent: 'mainPage',
       isCollapse: true,
     };
@@ -92,14 +134,28 @@ export default {
     gotoUserPage() {
       this.mainContent = 'userInfo';
     },
-    seeSelling(){
-      this.mainContent='selling';
+    seeSelling() {
+      this.mainContent = 'selling';
     },
     gotoShopping() {
-      this.mainContent='shopping';
+      this.mainContent = 'shopping';
+    },
+    handleCommand(command) {
+      // 根据不同的命令值执行不同的操作
+      if (command === 'user') {
+        // 显示用户信息
+        this.mainContent='userinfo';
+      } else if (command === 'logout') {
+        // 退出登录
+        localStorage.removeItem('loginData');
+        this.$store.state.userInfo = {};
+        router.push({
+          path: '/login',
+        })
+      }
     }
   },
-  components: { mainPage, cart, bought, shopping, detail,boughtHistory}
+  components: { mainPage, cart, bought, shopping, detail, boughtHistory,userinfo }
 }
 </script>
 <style scoped>
@@ -113,15 +169,19 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.right{
-  display:flex;
+
+.right {
+  display: flex;
   align-items: center;
 }
-.h3{
+
+.h3 {
   color: rgb(69, 69, 69);
-  font-size:22px;
+  font-size: 22px;
 }
+
 .icon {
   padding-right: 10px;
   /* 可以根据需要调整 */
-}</style>
+}
+</style>
