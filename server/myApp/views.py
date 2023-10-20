@@ -21,29 +21,34 @@ def create_connection():
 
 
 # 仅为测试能否连接数据库时所写，无用
-"""
+'''
 @csrf_exempt
 def register_info(request):
     if request.method == "GET":
         return render(request, "login.html")
-    # request_dict = json.loads(request.body.decode('utf-8'))
-
-    # user_name = request_dict["userName"]
-    # telephone = request_dict["telephone"]
-    # password = request_dict["password"]
 
     user_name = request.POST.get("userName")
+    email = request.POST.get("email")
     telephone = request.POST.get("telephone")
     password = request.POST.get("password")
 
     connection = create_connection()
     with connection:
         with connection.cursor() as cursor:
-            cursor.execute('insert into user(user_name,telephone,password) values(%s,%s,%s)', [user_name, telephone, password])
+            cursor.execute("select user_email from user_info where user_email = %s", [email])
+            is_registered = cursor.fetchall()
+            cursor.execute("select user_id from user_info where user_id >= All(select user_id from user_info)")
+            max_id = cursor.fetchall()
+            if len(max_id) == 1:
+                user_id = int(max_id[0]['user_id']) + 1
+            else:
+                user_id = 1
+            cursor.execute('insert into user_info(user_id,user_name,user_email,user_password,user_phonenum) '
+                           'values(%s,%s,%s,%s,%s)', [user_id, user_name, email, password, telephone])
             connection.commit()
 
     return HttpResponse(None)
-"""
+'''
 
 
 # 注册
@@ -58,15 +63,37 @@ def register(request):
     phone = request_dict["phone"]
     campus = request_dict["campus"]
     address = request_dict["address"]
+    response = {
+                'data': {
+                         'success': False,
+                         'message': '',
+                         'user_id': '',
+                         'user_name': ''
+                         }
+                }
 
     connection = create_connection()
     with connection:
         with connection.cursor() as cursor:
-            cursor.execute('insert into user_info(user_name,user_email,user_password,user_phonenum,user_campus,user_address)'
-                           ' values(%s,%s,%s,%s,%s,%s)',[user_name, email, password, phone, campus, address])
+            cursor.execute("select email from user_info where user_email = %s", [email])  # 查询邮箱是否存在
+            is_registered = cursor.fetchall()
+            if len(is_registered) == 1:
+                response['data']['message'] = "邮箱账户已存在"
+                return JsonResponse(response)
+            cursor.execute("select user_id from user_info where user_id >= All(select user_id from user_info)")  # 查询当前最大的id
+            max_id = cursor.fetchall()
+            if len(max_id) == 1:
+                user_id = int(max_id[0]['user_id']) + 1
+            else:
+                user_id = 1
+            response['data']['success'] = True
+            response['data']['user_id'] = user_id
+            response['data']['user_name'] = user_name
+            cursor.execute('insert into user_info(user_id,user_name,user_email,user_password,user_phonenum,user_campus,user_address)'
+                           ' values(%s,%s,%s,%s,%s,%s,%s)',[user_id, user_name, email, password, phone, campus, address])
             connection.commit()
 
-    return HttpResponse(None)
+    return JsonResponse(response)
 
 
 # 登录
@@ -84,10 +111,10 @@ def login(request):
             is_success = cursor.fetchall()
             connection.commit()
             if len(is_success) == 1:
-                response = {"isSuccess": True}
+                response = {'isSuccess': True}
                 return JsonResponse(response)
             else:
-                response = {"isSuccess": False}
+                response = {'isSuccess': False}
                 return JsonResponse(response)
 
 
