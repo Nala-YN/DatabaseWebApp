@@ -60,25 +60,23 @@ def register(request):
     user_name = request_dict["username"]
     email = request_dict["email"]
     password = request_dict["password"]
-    phone = request_dict["phone"]
+    phone = request_dict["phoneNum"]
     campus = request_dict["campus"]
     address = request_dict["address"]
     response = {
-                'data': {
                          'success': False,
                          'message': '',
                          'user_id': '',
                          'user_name': ''
-                         }
                 }
 
     connection = create_connection()
     with connection:
         with connection.cursor() as cursor:
-            cursor.execute("select email from user_info where user_email = %s", [email])  # 查询邮箱是否存在
+            cursor.execute("select user_email from user_info where user_email = %s", [email])  # 查询邮箱是否存在
             is_registered = cursor.fetchall()
             if len(is_registered) == 1:
-                response['data']['message'] = "邮箱账户已存在"
+                response['message'] = "邮箱账户已存在"
                 return JsonResponse(response)
             cursor.execute("select user_id from user_info where user_id >= All(select user_id from user_info)")  # 查询当前最大的id
             max_id = cursor.fetchall()
@@ -86,9 +84,9 @@ def register(request):
                 user_id = int(max_id[0]['user_id']) + 1
             else:
                 user_id = 1
-            response['data']['success'] = True
-            response['data']['user_id'] = user_id
-            response['data']['user_name'] = user_name
+            response['success'] = True
+            response['user_id'] = user_id
+            response['user_name'] = user_name
             cursor.execute('insert into user_info(user_id,user_name,user_email,user_password,user_phonenum,user_campus,user_address)'
                            ' values(%s,%s,%s,%s,%s,%s,%s)',[user_id, user_name, email, password, phone, campus, address])
             connection.commit()

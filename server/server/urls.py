@@ -18,7 +18,7 @@ from django.urls import path
 from myApp import views as LoginView
 
 urlpatterns = [
-    path('api/register/', LoginView.register),
-    path('login/', LoginView.login),
+    path('api/register', LoginView.register),
+    path('api/login', LoginView.login),
     # path('register_info/', LoginView.register_info)
 ]

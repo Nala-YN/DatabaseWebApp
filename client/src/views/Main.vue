@@ -1,29 +1,29 @@
 <template>
   <div>
     <el-container style="height: 95vh">
-        <el-menu default-active="2" mode="vertical" :collapse="isCollapse">
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon>
-                <Menu />
-              </el-icon>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1" @click='gotoHome'>
-                <h3 class="h3" style="font-size: 18px">首页</h3>
-              </el-menu-item>
-              <el-menu-item index="1-2" @click='seeBought'>
-                <h3 class="h3" style="font-size: 18px">我已购买</h3>
-              </el-menu-item>
-              <el-menu-item index="1-3" @click='gotoCart'>
-                <h3 class="h3" style="font-size: 18px">购物车</h3>
-              </el-menu-item>
-              <el-menu-item index="1-4" @click='seeSelling'>
-                <h3 class="h3" style="font-size: 18px">我已出售</h3>
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-sub-menu>
-        </el-menu>
+      <el-menu default-active="2" mode="vertical" :collapse="isCollapse">
+        <el-sub-menu index="1">
+          <template #title>
+            <el-icon>
+              <Menu />
+            </el-icon>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="1-1" @click='gotoHome'>
+              <h3 class="h3" style="font-size: 18px">首页</h3>
+            </el-menu-item>
+            <el-menu-item index="1-2" @click='seeBought'>
+              <h3 class="h3" style="font-size: 18px">我已购买</h3>
+            </el-menu-item>
+            <el-menu-item index="1-3" @click='gotoCart'>
+              <h3 class="h3" style="font-size: 18px">购物车</h3>
+            </el-menu-item>
+            <el-menu-item index="1-4" @click='seeSelling'>
+              <h3 class="h3" style="font-size: 18px">我已出售</h3>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
+      </el-menu>
       <el-container>
         <el-header class="header">
           <div class="left">
@@ -67,6 +67,29 @@
               </template>
             </el-dropdown>
           </div>
+          <el-button icon="el-icon-message"  v-dropdown="dropdown"></el-button>
+          <el-dropdown ref="dropdown">
+            <el-dropdown-menu>
+              <el-tabs type="card">
+                <el-tab-pane label="来自买家">
+                  <el-notification v-for="(item, index) in buyerMessages" :key="index" :title="item.title"
+                    :message="item.message" :type="item.type" :duration="0"></el-notification>
+                  <el-button-group>
+                    <el-button type="primary">显示已读通知</el-button>
+                    <el-button type="danger">清除消息</el-button>
+                  </el-button-group>
+                </el-tab-pane>
+                <el-tab-pane label="来自卖家">
+                  <el-notification v-for="(item, index) in sellerMessages" :key="index" :title="item.title"
+                    :message="item.message" :type="item.type" :duration="0"></el-notification>
+                  <el-button-group>
+                    <el-button type="primary">显示已读通知</el-button>
+                    <el-button type="danger">清除消息</el-button>
+                  </el-button-group>
+                </el-tab-pane>
+              </el-tabs>
+            </el-dropdown-menu>
+          </el-dropdown>
         </el-header>
         <el-main>
           <div v-if="mainContent === 'mainPage'">
@@ -116,6 +139,40 @@ export default {
       username: this.$store.getters.status.username,
       mainContent: 'mainPage',
       isCollapse: true,
+      buyerMessages: [
+        {
+          title: "订单确认",
+          message: "您购买的商品已经发货，请注意查收。",
+          type: "success",
+        },
+        {
+          title: "退款申请",
+          message: "您申请退款的商品已经通过审核，请等待退款到账。",
+          type: "success",
+        },
+        {
+          title: "售后服务",
+          message: "您咨询的商品问题已经有回复，请查看详情。",
+          type: "success",
+        },
+      ],
+      sellerMessages: [
+        {
+          title: "订单取消",
+          message: "买家取消了订单，请及时处理库存。",
+          type: "error",
+        },
+        {
+          title: "评价提醒",
+          message: "买家对您的商品进行了评价，请查看详情。",
+          type: "success",
+        },
+        {
+          title: "投诉通知",
+          message: "买家对您的商品进行了投诉，请尽快处理。",
+          type: "error",
+        },
+      ],
     };
   },
   methods: {
@@ -144,7 +201,7 @@ export default {
       // 根据不同的命令值执行不同的操作
       if (command === 'user') {
         // 显示用户信息
-        this.mainContent='userinfo';
+        this.mainContent = 'userinfo';
       } else if (command === 'logout') {
         // 退出登录
         localStorage.removeItem('loginData');
@@ -155,7 +212,7 @@ export default {
       }
     }
   },
-  components: { mainPage, cart, bought, shopping, detail, boughtHistory,userinfo }
+  components: { mainPage, cart, bought, shopping, detail, boughtHistory, userinfo }
 }
 </script>
 <style scoped>

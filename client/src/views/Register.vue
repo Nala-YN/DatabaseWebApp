@@ -110,7 +110,7 @@
         // 发送注册请求到后端
         // 假设使用axios库发送请求
         axios
-          .post('/api/register', registerForm)
+          .post('http://127.0.0.1:8000/api/register', registerForm)
           .then((response) => {
             if (response.data.success) {
               // 注册成功，执行登录逻辑，例如重定向到登录页面

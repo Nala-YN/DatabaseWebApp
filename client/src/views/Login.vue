@@ -42,7 +42,7 @@ export default {
       if(this.$store.getters.status!=null){
         console.log(this.$store.getters.status.username);
       }
-      axios.post('http://127.0.0.1:8000/login', {
+      axios.post('http://127.0.0.1:8000/api/login', {
         username: this.username,
         password: this.password,
       },)
