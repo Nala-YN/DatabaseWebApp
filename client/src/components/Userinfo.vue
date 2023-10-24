@@ -1,10 +1,115 @@
 <template>
-<div></div>
+    <div style="display: flex; justify-content: center; padding-top: 10vh; height: 100vh;">
+        <el-card style="width: 70vw;height: 18vw;">
+            <el-descriptions direction="vertical" :column="4" :size="size" border>
+                <el-descriptions-item label="账号">{{ userinfo.username }}</el-descriptions-item>
+                <el-descriptions-item label="电话号码">{{ userinfo.phonenum }}</el-descriptions-item>
+                <el-descriptions-item label="邮箱" :span="2">{{ userinfo.email }}</el-descriptions-item>
+                <el-descriptions-item label="所在校区">{{ userinfo.campus }}</el-descriptions-item>
+                <el-descriptions-item label="详细地址">{{ userinfo.address }}</el-descriptions-item>
+            </el-descriptions>
+            <div style="padding-top: 30px;">
+                <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                    @click="modifyphonenum = true">修改电话号码</el-button>
+                <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                    @click="modifyemail = true">修改邮箱</el-button>
+                <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                    @click="modifycampus = true">修改所在校区</el-button>
+                <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                    @click="modifyaddress = true">修改详细地址</el-button>
+                <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                    @click="modifypassword = true">修改密码</el-button>
+            </div>
+        </el-card>
+    </div>
+    <el-dialog v-model="modifyphonenum" title="修改电话号码" width="30%">
+        <el-input v-model="input" placeholder="请输入新的电话号码" />
+        <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <el-button type="primary" class=“button” size=“large” @click="modify('phonenum')">确认修改</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog v-model="modifyemail" title="修改邮箱" width="30%">
+        <el-input v-model="input" placeholder="请输入新的邮箱" />
+        <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <el-button type="primary" class=“button” size=“large” @click="modify('email')">确认修改</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog v-model="modifycampus" title="修改所在校区" width="30%">
+        <el-input v-model="input" placeholder="请输入所在校区" />
+        <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <el-button type="primary" class=“button” size=“large” @click="modify('campus')">确认修改</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog v-model="modifyaddress" title="修改详细地址" width="30%">
+        <el-input v-model="input" placeholder="请输入新的地址" />
+        <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <el-button type="primary" class=“button” size=“large” @click="modify('address')">确认修改</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog v-model="modifypassword" title="修改密码" width="30%">
+        <el-input v-model="oldPassword" placeholder="请输入旧密码"/>
+        <el-input v-model="input" placeholder="请输入新的密码" style="padding-top: 10px;"/>
+        <el-input v-model="confirm" placeholder="确认新的密码" style="padding-top: 10px;" />
+        <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <el-button type="primary" class=“button” size=“large” @click="modify('password')">确认修改</el-button>
+        </div>
+    </el-dialog>
 </template>
 <script>
-export default{
-    name:"userInfo"
+import { ElMessage } from 'element-plus';
+export default {
+    name: "userInfo",
+    data() {
+        return {
+            userinfo: {
+                username: "faqfaq",
+                phonenum: "13586012465",
+                email: "2654133250@qq.com",
+                campus: "学院路校区",
+                address: "大运村"
+            },
+            modifyphonenum: false,
+            modifypassword: false,
+            modifyemail: false,
+            modifycampus: false,
+            modifyaddress: false,
+            input: "",
+            confirm: "",
+            oldPassword: ""
+        }
+    },
+    methods: {
+        modify(which) {
+            if (which === "phonenum") {
+                this.userinfo.phonenum = this.input;
+                this.modifyphonenum = false;
+            }
+            else if (which === "email") {
+                this.userinfo.email = this.input;
+                this.modifyemail = false;
+            }
+            else if (which === "campus") {
+                this.userinfo.campus = this.input;
+                this.modifycampus = false;
+            }
+            else if (which === "address") {
+                this.userinfo.address = this.input;
+                this.modifyaddress = false;
+            }
+            else if (which === "password") {
+                if (this.oldPassword === "114514") {
+                    this.modifypassword = false;
+                }
+                else {
+                    ElMessage({
+                        message: '旧密码错误',
+                        type: 'error',
+                    })
+                }
+            }
+            this.input="";
+        }
+    }
 }
 </script>
-<style>
-</style>
+<style></style>

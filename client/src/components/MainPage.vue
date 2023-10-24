@@ -22,7 +22,7 @@ export default {
     this.$emit('update-content', newValue);
   },
   gotoSelling(){
-    this.updateContent("selling");
+    this.updateContent("addselling");
   },
   gotoShopping(){
     this.updateContent("shopping");

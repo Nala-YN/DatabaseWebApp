@@ -47,12 +47,13 @@ export default {
         password: this.password,
       },)
       .then(response => {
-        if(response.data.success===true){
+        if(response.data.isSuccess===true){
           ElMessage({
           message:'登录成功',
           type: 'success'});
           var userInfo={userid:response.data.userid,
-                    username:response.data.username};
+                    username:this.username};
+          console.log(userInfo);
           localStorage.setItem('loginData', JSON.stringify(userInfo))
           this.$store.commit('setStatus', userInfo);
           this.$router.push({ name: 'main' });

@@ -67,57 +67,20 @@
               </template>
             </el-dropdown>
           </div>
-          <el-button icon="el-icon-message"  v-dropdown="dropdown"></el-button>
-          <el-dropdown ref="dropdown">
-            <el-dropdown-menu>
-              <el-tabs type="card">
-                <el-tab-pane label="来自买家">
-                  <el-notification v-for="(item, index) in buyerMessages" :key="index" :title="item.title"
-                    :message="item.message" :type="item.type" :duration="0"></el-notification>
-                  <el-button-group>
-                    <el-button type="primary">显示已读通知</el-button>
-                    <el-button type="danger">清除消息</el-button>
-                  </el-button-group>
-                </el-tab-pane>
-                <el-tab-pane label="来自卖家">
-                  <el-notification v-for="(item, index) in sellerMessages" :key="index" :title="item.title"
-                    :message="item.message" :type="item.type" :duration="0"></el-notification>
-                  <el-button-group>
-                    <el-button type="primary">显示已读通知</el-button>
-                    <el-button type="danger">清除消息</el-button>
-                  </el-button-group>
-                </el-tab-pane>
-              </el-tabs>
-            </el-dropdown-menu>
-          </el-dropdown>
         </el-header>
         <el-main>
-          <div v-if="mainContent === 'mainPage'">
-            <mainPage @update-content="mainContent = $event"></mainPage>
-          </div>
-          <div v-if="mainContent === 'cart'">
-            <cart></cart>
-          </div>
-          <div v-if="mainContent === 'bought'">
-            <bought></bought>
-          </div>
-          <div v-if="mainContent === 'userInfo'">这是用户界面</div>
-          <div v-if="mainContent === 'shopping'">
-            <shopping></shopping>
-          </div>
-          <div v-if="mainContent === 'addselling'">
-            <h3 class="h3">添加出售</h3>
-          </div>
+          <div v-if="mainContent === 'mainPage'"><mainPage @update-content="mainContent = $event"></mainPage></div>
+          <div v-if="mainContent === 'cart'"><cart></cart></div>
+          <div v-if="mainContent === 'bought'"><bought></bought></div>
+          <div v-if="mainContent === 'message'"><message></message></div>
+          <div v-if="mainContent === 'userinfo'"><userinfo></userinfo></div>
+          <div v-if="mainContent === 'shopping'"><shopping></shopping></div>
+          <div v-if="mainContent === 'addselling'">添加出售</div>
           <div v-if="mainContent === 'selling'">我已出售</div>
-          <div v-if="mainContent === 'boughtHistory'">
-            <boughtHistory></boughtHistory>
-          </div>
-          <div v-if="mainContent === 'detail'">
-            <detail></detail>
-          </div>
-          <div v-if="mainContent === 'userinfo'">
-            <userinfo></userinfo>
-          </div>
+          <div v-if="mainContent === 'boughtHistory'"><boughtHistory></boughtHistory></div>
+          <div v-if="mainContent === 'detail'"><detail></detail></div>
+          <div v-if="mainContent === 'post'"><post></post></div>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -131,54 +94,22 @@ import shopping from '@/components/Shopping.vue'
 import detail from '@/components/Detail.vue'
 import userinfo from '@/components/Userinfo.vue'
 import boughtHistory from '@/components/BoughtHistory.vue'
+import message from '@/components/Message.vue'
 import router from '@/router'
+import post from '@/components/Post.vue'
 export default {
   name: "MainView",
   data() {
     return {
       username: this.$store.getters.status.username,
-      mainContent: 'mainPage',
+      mainContent: 'post',
       isCollapse: true,
-      buyerMessages: [
-        {
-          title: "订单确认",
-          message: "您购买的商品已经发货，请注意查收。",
-          type: "success",
-        },
-        {
-          title: "退款申请",
-          message: "您申请退款的商品已经通过审核，请等待退款到账。",
-          type: "success",
-        },
-        {
-          title: "售后服务",
-          message: "您咨询的商品问题已经有回复，请查看详情。",
-          type: "success",
-        },
-      ],
-      sellerMessages: [
-        {
-          title: "订单取消",
-          message: "买家取消了订单，请及时处理库存。",
-          type: "error",
-        },
-        {
-          title: "评价提醒",
-          message: "买家对您的商品进行了评价，请查看详情。",
-          type: "success",
-        },
-        {
-          title: "投诉通知",
-          message: "买家对您的商品进行了投诉，请尽快处理。",
-          type: "error",
-        },
-      ],
     };
   },
   methods: {
     gotoHome() {
       //this.$router.push('/home')
-      this.mainContent = 'home';
+      this.mainContent = 'mainPage';
     },
     gotoCart() {
       //this.$router.push('/cart')
@@ -202,6 +133,7 @@ export default {
       if (command === 'user') {
         // 显示用户信息
         this.mainContent = 'userinfo';
+        console.log(this.mainContent)
       } else if (command === 'logout') {
         // 退出登录
         localStorage.removeItem('loginData');
@@ -212,7 +144,7 @@ export default {
       }
     }
   },
-  components: { mainPage, cart, bought, shopping, detail, boughtHistory, userinfo }
+  components: { mainPage, cart, bought, shopping, detail, boughtHistory, userinfo, message,post }
 }
 </script>
 <style scoped>

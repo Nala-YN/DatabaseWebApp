@@ -47,28 +47,34 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   var login = store.getters.status
-  console.log(login)
   // 如果目标路由和当前路由相同，不要返回任何值
   if (to.path === from.path) {
     next()
   }
   // 如果目标路由需要验证登录状态
-  else if (to.meta.requireAuth) {
+  else {
     // 如果没有登录，则跳转到登录页面，并传递目标路径
     if (!login) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
+      if(to.path!='/login'){
+        next({
+          path: '/login',
+        })
+      }
+      else{
+        next()
+      }
     }
     // 如果已经登录，则继续跳转
     else {
-      next()
+      if(to.path==='/login'){
+        next({
+          path:'/main'
+        })
+      }
+      else{
+        next()
+      }
     }
-  }
-  // 如果目标路由不需要验证登录状态，则继续跳转
-  else {
-    next()
   }
 })
 export default router

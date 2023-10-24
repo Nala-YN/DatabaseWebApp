@@ -75,8 +75,13 @@ def register(request):
         with connection.cursor() as cursor:
             cursor.execute("select user_email from user_info where user_email = %s", [email])  # 查询邮箱是否存在
             is_registered = cursor.fetchall()
-            if len(is_registered) == 1:
+            if len(is_registered) >= 1:
                 response['message'] = "邮箱账户已存在"
+                return JsonResponse(response)
+            cursor.execute("select user_name from user_info where user_name = %s", [user_name])  # 查询邮箱是否存在
+            is_registered = cursor.fetchall()
+            if len(is_registered) >= 1:
+                response['message'] = "用户昵称已存在"
                 return JsonResponse(response)
             cursor.execute("select user_id from user_info where user_id >= All(select user_id from user_info)")  # 查询当前最大的id
             max_id = cursor.fetchall()
@@ -109,7 +114,8 @@ def login(request):
             is_success = cursor.fetchall()
             connection.commit()
             if len(is_success) == 1:
-                response = {'isSuccess': True}
+                response = {'isSuccess': True,
+                            'userid':is_success[0].get('user_id')}
                 return JsonResponse(response)
             else:
                 response = {'isSuccess': False}
