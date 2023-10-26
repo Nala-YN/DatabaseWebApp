@@ -1,3 +1,4 @@
+import base64
 import json
 import sys
 
@@ -121,5 +122,14 @@ def login(request):
                 response = {'isSuccess': False}
                 return JsonResponse(response)
 
-
+def upload(request):
+    request_dict = json.loads(request.body.decode('utf-8'))
+    base64_str=request_dict.get('image')
+    ori_str=base64_str #把这个上传到数据库，代表图片，可能要用blob类型
+    base64_str=base64_str.split(',')[1]
+    image_data=base64.b64decode(base64_str)
+    with open('image.jpg','wb') as f:
+        f.write(image_data)
+    response={'image_data':ori_str}
+    return JsonResponse(response)
 

@@ -9,17 +9,29 @@
             </el-icon>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="1-1" @click='gotoHome'>
+            <el-menu-item index="1-1" @click='gotoMainPage'>
               <h3 class="h3" style="font-size: 18px">首页</h3>
             </el-menu-item>
-            <el-menu-item index="1-2" @click='seeBought'>
-              <h3 class="h3" style="font-size: 18px">我已购买</h3>
+            <el-menu-item index="1-2" @click='gotoMessage'>
+              <h3 class="h3" style="font-size: 18px">我的消息</h3>
             </el-menu-item>
             <el-menu-item index="1-3" @click='gotoCart'>
               <h3 class="h3" style="font-size: 18px">购物车</h3>
             </el-menu-item>
-            <el-menu-item index="1-4" @click='seeSelling'>
+            <el-menu-item index="1-4" @click='gotoBought'>
+              <h3 class="h3" style="font-size: 18px">我已购买</h3>
+            </el-menu-item>
+            <el-menu-item index="1-5" @click='gotoBoughtHistory'>
+              <h3 class="h3" style="font-size: 18px">历史购买记录</h3>
+            </el-menu-item>
+            <el-menu-item index="1-6" @click='gotoSoldHistory'>
               <h3 class="h3" style="font-size: 18px">我已出售</h3>
+            </el-menu-item>
+            <el-menu-item index="1-7" @click='gotoPost'>
+              <h3 class="h3" style="font-size: 18px">查看求书贴</h3>
+            </el-menu-item>
+            <el-menu-item index="1-8" @click='gotoAddPost'>
+              <h3 class="h3" style="font-size: 18px">添加帖子</h3>
             </el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
@@ -27,31 +39,18 @@
       <el-container>
         <el-header class="header">
           <div class="left">
-            <div v-if="mainContent === 'mainPage'">
-              <h3 class="h3">首页</h3>
-            </div>
-            <div v-if="mainContent === 'cart'">
-              <h3 class="h3">购物车</h3>
-            </div>
-            <div v-if="mainContent === 'bought'">
-              <h3 class="h3">我已购买</h3>
-            </div>
-            <div v-if="mainContent === 'userInfo'">
-              <h3 class="h3">用户信息</h3>
-            </div>
-            <div v-if="mainContent === 'shopping'">
-              <h3 class="h3">购买</h3>
-            </div>
-            <div v-if="mainContent === 'addselling'">
-              <h3 class="h3">添加出售</h3>
-            </div>
-            <div v-if="mainContent === 'selling'">
-              <h3 class="h3">我已出售</h3>
-            </div>
-            <div v-if="mainContent === 'userinfo'">
-              <h3 class="h3">个人信息</h3>
-            </div>
-          </div>
+            <div v-if="mainContent === 'mainPage'"><h3 class="h3">首页</h3></div>
+            <div v-if="mainContent === 'message'"><h3 class="h3">我的消息</h3></div>
+            <div v-if="mainContent === 'cart'"><h3 class="h3">购物车</h3></div>
+            <div v-if="mainContent === 'bought'"><h3 class="h3">我已购买</h3></div>
+            <div v-if="mainContent === 'boughtHistory'"><h3 class="h3">历史购买记录</h3></div>
+            <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
+            <div v-if="mainContent === 'soldHistory'"><h3 class="h3">我已出售</h3></div>
+            <div v-if="mainContent === 'post'"><h3 class="h3">求书帖</h3></div>
+            <div v-if="mainContent === 'addpost'"><h3 class="h3">添加帖子</h3></div></div>
+            <div v-if="mainContent === 'shopping'"><h3 class="h3">购买</h3></div>
+            <div v-if="mainContent === 'detail'"><h3 class="h3">详细信息</h3></div>
+            <div v-if="mainContent === 'userinfo'"><h3 class="h3">用户信息</h3></div>
           <div class="right">
             <h3 class="h3" style="padding-right: 3vh;">你好，{{ username }}</h3>
             <!-- 把el-button放在el-dropdown的slot中 -->
@@ -75,12 +74,12 @@
           <div v-if="mainContent === 'message'"><message></message></div>
           <div v-if="mainContent === 'userinfo'"><userinfo></userinfo></div>
           <div v-if="mainContent === 'shopping'"><shopping></shopping></div>
-          <div v-if="mainContent === 'addselling'">添加出售</div>
-          <div v-if="mainContent === 'selling'">我已出售</div>
+          <div v-if="mainContent === 'addselling'"><addselling></addselling></div>
+          <div v-if="mainContent === 'soldHistory'"><soldHistory></soldHistory></div>
           <div v-if="mainContent === 'boughtHistory'"><boughtHistory></boughtHistory></div>
           <div v-if="mainContent === 'detail'"><detail></detail></div>
           <div v-if="mainContent === 'post'"><post></post></div>
-          
+          <div v-if="mainContent === 'addpost'"><addpost></addpost></div>
         </el-main>
       </el-container>
     </el-container>
@@ -97,17 +96,20 @@ import boughtHistory from '@/components/BoughtHistory.vue'
 import message from '@/components/Message.vue'
 import router from '@/router'
 import post from '@/components/Post.vue'
+import addpost from '@/components/AddPost.vue'
+import addselling from '@/components/AddSelling.vue'
+import soldHistory from '@/components/SoldHistory'
 export default {
   name: "MainView",
   data() {
     return {
       username: this.$store.getters.status.username,
-      mainContent: 'post',
+      mainContent: 'soldHistory',
       isCollapse: true,
     };
   },
   methods: {
-    gotoHome() {
+    gotoMainPage() {
       //this.$router.push('/home')
       this.mainContent = 'mainPage';
     },
@@ -115,18 +117,27 @@ export default {
       //this.$router.push('/cart')
       this.mainContent = 'cart';
     },
-    seeBought() {
+    gotoMessage() {
       // this.$router.push('/bought')
+      this.mainContent = 'message';
+    },
+    gotoBought() {
       this.mainContent = 'bought';
     },
-    gotoUserPage() {
-      this.mainContent = 'userInfo';
+    gotoBoughtHistory() {
+      this.mainContent = 'boughtHistory';
     },
-    seeSelling() {
-      this.mainContent = 'selling';
+    gotoAddSelling() {
+      this.mainContent = 'addselling';
     },
-    gotoShopping() {
-      this.mainContent = 'shopping';
+    gotoSoldHistory() {
+      this.mainContent = 'soldHistory';
+    },
+    gotoPost() {
+      this.mainContent = 'post';
+    },
+    gotoAddPost() {
+      this.mainContent = 'addpost';
     },
     handleCommand(command) {
       // 根据不同的命令值执行不同的操作
@@ -144,7 +155,7 @@ export default {
       }
     }
   },
-  components: { mainPage, cart, bought, shopping, detail, boughtHistory, userinfo, message,post }
+  components: { mainPage, cart, bought, shopping, detail, boughtHistory, userinfo, message,post,addpost,addselling,soldHistory}
 }
 </script>
 <style scoped>

@@ -20,5 +20,6 @@ from myApp import views as LoginView
 urlpatterns = [
     path('api/register', LoginView.register),
     path('api/login', LoginView.login),
+    path('api/upload',LoginView.upload)
     # path('register_info/', LoginView.register_info)
 ]
