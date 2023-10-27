@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       username: this.$store.getters.status.username,
-      mainContent: 'userinfo',
+      mainContent: 'message',
       isCollapse: true,
     };
   },

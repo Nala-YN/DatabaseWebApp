@@ -1,22 +1,28 @@
 <template>
     <el-container style="height: 100vh;">
-        <el-header style="border-bottom: 1px solid lightgray;">
-            <el-tabs v-model="activeTab">
+        <el-header style="border-bottom: 1px solid lightgray; height: 100vh;">
+            <el-tabs v-model="activeTab" >
                 <el-tab-pane label="查看买家消息" name="buyer">
+                    <div v-if="this.buyerMessages.length === 0"
+                        style="display:flex;align-items: center;justify-content: center;">
+                        <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有收到消息哦</h3>
+                    </div>
                     <transition-group name="list" tag="div">
                         <div v-for="(item, index) in  buyerMessages " :key="item.id" class="list-item">
                             <el-card>
                                 <el-row :gutter="10">
                                     <el-col :span="22">
-                                        <el-descriptions :column="1" border=true>
-                                    <el-descriptions-item label="卖家姓名">{{ item.sellerName }}</el-descriptions-item>
-                                    <el-descriptions-item label="电话号码">{{ item.phoneNum }}</el-descriptions-item>
-                                    <el-descriptions-item label="内容">{{ item.content }}</el-descriptions-item>
-                                </el-descriptions>
+                                        <el-descriptions :column="3" border=true size="large">
+                                            <el-descriptions-item label="买家昵称">{{ item.buyerName }}</el-descriptions-item>
+                                            <el-descriptions-item label="电话号码">{{ item.phoneNum }}</el-descriptions-item>
+                                            <el-descriptions-item label="发送时间">{{ item.year }}-{{ item.month }}-{{ item.day
+                                            }}</el-descriptions-item>
+                                            <el-descriptions-item label="消息内容">{{ item.content }}</el-descriptions-item>
+                                        </el-descriptions>
                                     </el-col>
                                     <el-col :span="2" style="display: flex; align-items: center;">
                                         <el-button type="danger" round class=“button” size=“large” style="align-items:end"
-                                    @click="removeBuyerMessage(index)">删除消息</el-button>
+                                            @click="removeBuyerMessage(index)">删除消息</el-button>
                                     </el-col>
                                 </el-row>
                             </el-card>
@@ -25,20 +31,26 @@
                     </transition-group>
                 </el-tab-pane>
                 <el-tab-pane label="查看卖家消息" name="seller">
+                    <div v-if="this.sellerMessages.length === 0"
+                        style="display:flex;align-items: center;justify-content: center;">
+                        <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有收到消息哦</h3>
+                    </div>
                     <transition-group name="list" tag="div">
                         <div v-for="( item, index ) in  sellerMessages " :key="item.id" class="list-item">
                             <el-card>
                                 <el-row :gutter="10">
                                     <el-col :span="22">
-                                        <el-descriptions :column="1" border=true>
-                                    <el-descriptions-item label="买家姓名">{{ item.sellerName }}</el-descriptions-item>
-                                    <el-descriptions-item label="电话号码">{{ item.phoneNum }}</el-descriptions-item>
-                                    <el-descriptions-item label="内容">{{ item.content }}</el-descriptions-item>
-                                </el-descriptions>
+                                        <el-descriptions :column="3" border=true size="large">
+                                            <el-descriptions-item label="卖家昵称">{{ item.sellerName }}</el-descriptions-item>
+                                            <el-descriptions-item label="电话号码">{{ item.phoneNum }}</el-descriptions-item>
+                                            <el-descriptions-item label="发送时间">{{ item.year }}-{{ item.month }}-{{ item.day
+                                            }}</el-descriptions-item>
+                                            <el-descriptions-item label="消息内容">{{ item.content }}</el-descriptions-item>
+                                        </el-descriptions>
                                     </el-col>
                                     <el-col :span="2" style="display: flex; align-items: center;">
                                         <el-button type="danger" round class=“button” size=“large” style="align-items:end"
-                                    @click="removeSellerMessage(index)">删除消息</el-button>
+                                            @click="removeSellerMessage(index)">删除消息</el-button>
                                     </el-col>
                                 </el-row>
                             </el-card>
@@ -55,15 +67,16 @@
   
 <script>
 import Mock from 'mockjs';
-import axios from 'axios';
-Mock.mock('/api/getBuyerMessages', {
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+Mock.mock('/api/getBuyerMsgs', {
     'list|10-20': [{
         'content': '@ctitle(30, 100)',
         'phoneNum': '@ctitle(8,14)',
         'sellerName': '@ctitle(2,9)',
     }]
 })
-Mock.mock('/api/getSellerMessages', {
+Mock.mock('/api/getSellerMsgs', {
     'list|10-20': [{
         'content': '@ctitle(30, 100)',
         'phoneNum': '@ctitle(8,14)',
@@ -81,23 +94,46 @@ export default {
     },
     methods: {
         removeBuyerMessage(index) {
+            this.$http.post("/api/rmMsg",{
+                msg_id:this.buyerMessages[index].msg_id
+            }).catch(error=>{
+                ElMessage({ message: error, type: "error" })
+            })
             this.buyerMessages.splice(index, 1);
         },
         removeSellerMessage(index) {
+            this.$http.post("/api/rmMsg",{
+                msg_id:this.sellerMessages[index].msg_id
+            }).catch(error=>{
+                ElMessage({ message: error, type: "error" })
+            })
             this.sellerMessages.splice(index, 1);
         },
         clearAllMessages() {
+            this.$http.post("/api/rmUserMsg",{
+                user_id: this.$store.getters.status.userid,
+            }).catch(error=>{
+                ElMessage({ message: error, type: "error" })
+            })
             this.buyerMessages = [];
             this.sellerMessages = [];
         }
     },
     mounted() {
-        axios.get('/api/getBuyerMessages').then(res => {
-            this.buyerMessages = res.data.list
-        }).catch(console.log("JI"))
-        axios.get('/api/getSellerMessages').then(res => {
-            this.sellerMessages = res.data.list
-        }).catch(console.log("JI"))
+        this.$http.post('/api/getMsgs', {
+            user_id: this.$store.getters.status.userid
+        }).then(response => {
+            this.buyerMessages = response.data.buyerMsgs;
+            this.sellerMessages = response.data.sellerMsgs;
+        }).catch(error => {
+            ElMessage({ message: error, type: "error" })
+        })
+        /*         axios.get('/api/getBuyerMsgs').then(res => {
+                    this.buyerMessages = res.data.list
+                }).catch(console.log("JI"))
+                axios.get('/api/getSellerMsgs').then(res => {
+                    this.sellerMessages = res.data.list
+                }).catch(console.log("JI"))  */
     }
 };
 </script>
@@ -129,6 +165,7 @@ export default {
     transition: all 0.5s ease;
 }
 
+
 .list-leave-active {
     position: absolute;
 }
@@ -141,4 +178,5 @@ export default {
 .button {
     margin-left: 50px;
     margin-right: 20px;
-}</style>
+}
+</style>
