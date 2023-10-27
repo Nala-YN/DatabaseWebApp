@@ -33,6 +33,7 @@
 <script>
 import Mock from 'mockjs';
 import axios from 'axios'
+import { ElMessage } from 'element-plus';
 Mock.mock('/api/getuserpost', {
   'list|10-20': [{
     'content': '@ctitle(30, 100)',
@@ -43,7 +44,7 @@ export default {
   name: "PostView",
   data() {
     return {
-      activeTab:"all",
+      activeTab: "all",
       posts: [
         {
           id: 1,
@@ -94,13 +95,38 @@ export default {
       myposts: []
     }
   },
+  methods: {
+    deletePost(index) {
+      this.$http.post("/api/deletepost",{
+        post_id:this.myposts[index].id,
+      }).then(response=>{
+        if(response.data.success){
+          ElMessage({message:"撤回成功",type:"success"})
+          this.myposts.splice(index, 1)
+        }
+        else{
+          ElMessage({message:"撤回失败",type:"error"})
+        }
+      }).catch(error=>{
+        ElMessage({message:error,type:"error"})
+      })
+    },
+  },
   mounted() {
-    axios.get('/api/getuserpost').then(res => {
-      this.myposts = res.data.list
+    this.$http.post('/api/getuserpost', {
+      user_id: this.$store.getters.status.userid,
+    }).then(response => {
+      this.myposts = response.data.userposts
+    }).catch(error => {
+      ElMessage({ message: error, type: "error" })
     })
-    /*     this.$http.post('/api/getposts').then(response => {
-    
-        }).catch(console.log("JI")) */
+    this.$http.post('/api/getallpost')
+      .then(response=>{
+        this.posts=response.data.posts
+      }).
+      catch(error=>{
+        ElMessage({message:error,type:"error"})
+      })
   }
 }
 </script>

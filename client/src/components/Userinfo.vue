@@ -47,8 +47,8 @@
         </div>
     </el-dialog>
     <el-dialog v-model="modifypassword" title="修改密码" width="30%">
-        <el-input v-model="oldPassword" placeholder="请输入旧密码"/>
-        <el-input v-model="input" placeholder="请输入新的密码" style="padding-top: 10px;"/>
+        <el-input v-model="oldPassword" placeholder="请输入旧密码" />
+        <el-input v-model="input" placeholder="请输入新的密码" style="padding-top: 10px;" />
         <el-input v-model="confirm" placeholder="确认新的密码" style="padding-top: 10px;" />
         <div style="display:flex;justify-content: end;padding-top: 10px;">
             <el-button type="primary" class=“button” size=“large” @click="modify('password')">确认修改</el-button>
@@ -80,35 +80,67 @@ export default {
     },
     methods: {
         modify(which) {
-            if (which === "phonenum") {
-                this.userinfo.phonenum = this.input;
-                this.modifyphonenum = false;
-            }
-            else if (which === "email") {
-                this.userinfo.email = this.input;
-                this.modifyemail = false;
-            }
-            else if (which === "campus") {
-                this.userinfo.campus = this.input;
-                this.modifycampus = false;
-            }
-            else if (which === "address") {
-                this.userinfo.address = this.input;
-                this.modifyaddress = false;
-            }
-            else if (which === "password") {
-                if (this.oldPassword === "114514") {
-                    this.modifypassword = false;
+            if (which === "password") {
+                if(this.input!=this.confirm){
+                    ElMessage({message:"确认密码与新密码不一致",type:"error"});
+                    return;
                 }
-                else {
-                    ElMessage({
-                        message: '旧密码错误',
-                        type: 'error',
-                    })
-                }
+                this.$http.post("/api/modifypassword", {
+                        user_id:this.$store.getters.status.userid,
+                        old_pw:this.oldPassword,
+                        new_pw:this.input
+                    }).then(response=>{
+                        if(response.data.success===true){
+                            ElMessage({message:"修改成功",type:"success"})
+                        }
+                        else{
+                            ElMessage({message:"修改失败，请确认旧密码是否正确",type:"error"})
+                        }
+                    }).catch(error => {
+                        ElMessage({ message: error, type: "error" })
+                        return;
+                    });
             }
-            this.input="";
+            else {
+                    this.$http.post("/api/modifyinfo", {
+                        user_id:this.$store.getters.status.userid,
+                        modify_which: which,
+                        modify_content: this.input
+                    }).then().catch(error => {
+                        ElMessage({ message: error, type: "error" })
+                        return;
+                    });
+                    ElMessage({message:"修改成功",type:"success"})
+                    if (which === "phonenum") {
+                        this.userinfo.phonenum = this.input;
+                        this.modifyphonenum = false;
+                    }
+                    else if (which === "email") {
+                        this.userinfo.email = this.input;
+                        this.modifyemail = false;
+                    }
+                    else if (which === "campus") {
+                        this.userinfo.campus = this.input;
+                        this.modifycampus = false;
+                    }
+                    else if (which === "address") {
+                        this.userinfo.address = this.input;
+                        this.modifyaddress = false;
+                    }
+                }
+            this.input = "";
+            this.confirm="";
+            this.oldPassword= "";
         }
+    },
+    mounted() {
+        this.$http.post('/api/getuserinfo', {
+            user_id: this.$store.getters.status.userid,
+        }).then(response => {
+            this.userinfo = response.data.userinfo
+        }).catch(error => {
+            ElMessage({ message: error, type: "error" })
+        })
     }
 }
 </script>
