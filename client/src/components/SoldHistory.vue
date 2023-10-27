@@ -46,9 +46,7 @@
     mounted() {
       axios.get('/api/data').then(res => {
         this.items = res.data.list
-      }).catch(console.log("JI"))
-      console.log('get')
-      console.log(this.items)
+      }).catch()
     }
   }
   </script>

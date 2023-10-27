@@ -22,6 +22,8 @@
   </template>
   
   <script>
+import { ElMessage } from 'element-plus';
+
   export default {
     data() {
       return {
@@ -30,9 +32,21 @@
       };
     },
     methods: {
-      submitForm(formName) {
-        // 这里是你的发布逻辑，可以发送请求到后端或者其他操作
-        console.log(this.form);
+      submitForm() {
+        this.$http.post('/api/uploadpost',{
+          user_id:this.$store.getters.status.userid,
+          title:this.title,
+          content:this.content
+        }).then(response=>{
+          if(response.data.success){
+            ElMessage({message:"发布成功",type:"success"})
+          }
+          else{
+            ElMessage({message:"发布失败"+response.data.message,type:"error"})
+          }
+        }).catch(error=>{
+          ElMessage({error,type:"error"})
+        })
       },
       resetForm(formName) {
         this.title="";

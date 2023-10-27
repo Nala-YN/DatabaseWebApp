@@ -47,10 +47,11 @@
             <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
             <div v-if="mainContent === 'soldHistory'"><h3 class="h3">我已出售</h3></div>
             <div v-if="mainContent === 'post'"><h3 class="h3">求书帖</h3></div>
-            <div v-if="mainContent === 'addpost'"><h3 class="h3">添加帖子</h3></div></div>
+            <div v-if="mainContent === 'addpost'"><h3 class="h3">添加帖子</h3></div>
             <div v-if="mainContent === 'shopping'"><h3 class="h3">购买</h3></div>
             <div v-if="mainContent === 'detail'"><h3 class="h3">详细信息</h3></div>
             <div v-if="mainContent === 'userinfo'"><h3 class="h3">用户信息</h3></div>
+          </div>
           <div class="right">
             <h3 class="h3" style="padding-right: 3vh;">你好，{{ username }}</h3>
             <!-- 把el-button放在el-dropdown的slot中 -->
@@ -104,7 +105,7 @@ export default {
   data() {
     return {
       username: this.$store.getters.status.username,
-      mainContent: 'soldHistory',
+      mainContent: 'post',
       isCollapse: true,
     };
   },
@@ -144,11 +145,10 @@ export default {
       if (command === 'user') {
         // 显示用户信息
         this.mainContent = 'userinfo';
-        console.log(this.mainContent)
       } else if (command === 'logout') {
         // 退出登录
         localStorage.removeItem('loginData');
-        this.$store.state.userInfo = {};
+        this.$store.state.userInfo=null;
         router.push({
           path: '/login',
         })

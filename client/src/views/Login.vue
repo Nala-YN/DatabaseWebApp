@@ -25,9 +25,7 @@
 </template>
 
 <script >
-import axios from 'axios';
 import { ElMessage } from 'element-plus';
-import store from '@/store/index.js';
 // @ is an alias to /src
 export default {
   name: "LoginView",
@@ -42,7 +40,7 @@ export default {
       if(this.$store.getters.status!=null){
         console.log(this.$store.getters.status.username);
       }
-      axios.post('http://127.0.0.1:8000/api/login', {
+      this.$http.post('/api/login', {
         username: this.username,
         password: this.password,
       },)
