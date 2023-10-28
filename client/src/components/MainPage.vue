@@ -18,7 +18,7 @@
 export default {
     name: "mainPage",
     methods: {
-  updateContent: function(newValue) {
+  updateContent(newValue) {
     this.$emit('update-content', newValue);
   },
   gotoSelling(){

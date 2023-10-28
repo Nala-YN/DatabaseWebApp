@@ -78,7 +78,6 @@
           <div v-if="mainContent === 'addselling'"><addselling></addselling></div>
           <div v-if="mainContent === 'soldHistory'"><soldHistory></soldHistory></div>
           <div v-if="mainContent === 'boughtHistory'"><boughtHistory></boughtHistory></div>
-          <div v-if="mainContent === 'detail'"><detail></detail></div>
           <div v-if="mainContent === 'post'"><post></post></div>
           <div v-if="mainContent === 'addpost'"><addpost></addpost></div>
         </el-main>
@@ -105,7 +104,7 @@ export default {
   data() {
     return {
       username: this.$store.getters.status.username,
-      mainContent: 'message',
+      mainContent: 'shopping',
       isCollapse: true,
     };
   },
@@ -115,26 +114,32 @@ export default {
       this.mainContent = 'mainPage';
     },
     gotoCart() {
+      //location.reload();
       //this.$router.push('/cart')
       this.mainContent = 'cart';
     },
     gotoMessage() {
+      //location.reload();
       // this.$router.push('/bought')
       this.mainContent = 'message';
     },
     gotoBought() {
+      //location.reload();
       this.mainContent = 'bought';
     },
     gotoBoughtHistory() {
+      //location.reload();
       this.mainContent = 'boughtHistory';
     },
     gotoAddSelling() {
       this.mainContent = 'addselling';
     },
     gotoSoldHistory() {
+      //location.reload();
       this.mainContent = 'soldHistory';
     },
     gotoPost() {
+      //location.reload();
       this.mainContent = 'post';
     },
     gotoAddPost() {
@@ -155,7 +160,7 @@ export default {
       }
     }
   },
-  components: { mainPage, cart, bought, shopping, detail, boughtHistory, userinfo, message,post,addpost,addselling,soldHistory}
+  components: { mainPage, cart, bought, shopping,  boughtHistory, userinfo, message,post,addpost,addselling,soldHistory}
 }
 </script>
 <style scoped>

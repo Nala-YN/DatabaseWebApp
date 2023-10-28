@@ -37,9 +37,6 @@ export default {
   },
   methods: {
     goToLogin() {
-      if(this.$store.getters.status!=null){
-        console.log(this.$store.getters.status.username);
-      }
       this.$http.post('/api/login', {
         username: this.username,
         password: this.password,
@@ -51,7 +48,6 @@ export default {
           type: 'success'});
           var userInfo={userid:response.data.userid,
                     username:this.username};
-          console.log(userInfo);
           localStorage.setItem('loginData', JSON.stringify(userInfo))
           this.$store.commit('setStatus', userInfo);
           this.$router.push({ name: 'main' });

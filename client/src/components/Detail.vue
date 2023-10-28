@@ -25,6 +25,9 @@
 <script>
 export default {
   name: "DetailView",
+  props:{
+    id:Number
+  },
   data() {
     return {
       book: {
@@ -46,6 +49,9 @@ export default {
     addToCart() {
       // 将书籍添加到购物车的逻辑
     }
+  },
+  mounted(){
+    console.log(this.id);
   }
 }
 </script>

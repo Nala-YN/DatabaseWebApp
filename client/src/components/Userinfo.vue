@@ -7,6 +7,7 @@
                 <el-descriptions-item label="邮箱" :span="2">{{ userinfo.email }}</el-descriptions-item>
                 <el-descriptions-item label="所在校区">{{ userinfo.campus }}</el-descriptions-item>
                 <el-descriptions-item label="详细地址">{{ userinfo.address }}</el-descriptions-item>
+                <el-descriptions-item label="账户余额">{{ userinfo.money.toFixed(2) }}</el-descriptions-item>
             </el-descriptions>
             <div style="padding-top: 30px;">
                 <el-button type="primary" class=“button” size=“large” style="align-items:end"
@@ -19,6 +20,8 @@
                     @click="modifyaddress = true">修改详细地址</el-button>
                 <el-button type="primary" class=“button” size=“large” style="align-items:end"
                     @click="modifypassword = true">修改密码</el-button>
+                <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                    @click="modifymoney = true">充值账户余额</el-button>
             </div>
         </el-card>
     </div>
@@ -32,6 +35,12 @@
         <el-input v-model="input" placeholder="请输入新的邮箱" />
         <div style="display:flex;justify-content: end;padding-top: 10px;">
             <el-button type="primary" class=“button” size=“large” @click="modify('email')">确认修改</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog v-model="modifymoney" title="充值账户余额" width="30%">
+        <el-input v-model="input" placeholder="请输入要充值的数额" />
+        <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <el-button type="primary" class=“button” size=“large” @click="modify('money')">确认充值</el-button>
         </div>
     </el-dialog>
     <el-dialog v-model="modifycampus" title="修改所在校区" width="30%">
@@ -66,13 +75,15 @@ export default {
                 phonenum: "13586012465",
                 email: "2654133250@qq.com",
                 campus: "学院路校区",
-                address: "大运村"
+                address: "大运村",
+                money:114.54545
             },
             modifyphonenum: false,
             modifypassword: false,
             modifyemail: false,
             modifycampus: false,
             modifyaddress: false,
+            modifymoney:false,
             input: "",
             confirm: "",
             oldPassword: ""
@@ -81,56 +92,67 @@ export default {
     methods: {
         modify(which) {
             if (which === "password") {
-                if(this.input!=this.confirm){
-                    ElMessage({message:"确认密码与新密码不一致",type:"error"});
+                if (this.input != this.confirm) {
+                    ElMessage({ message: "确认密码与新密码不一致", type: "error" });
                     return;
                 }
                 this.$http.post("/api/modifypassword", {
-                        user_id:this.$store.getters.status.userid,
-                        old_pw:this.oldPassword,
-                        new_pw:this.input
-                    }).then(response=>{
-                        if(response.data.success===true){
-                            ElMessage({message:"修改成功",type:"success"})
-                        }
-                        else{
-                            ElMessage({message:"修改失败，请确认旧密码是否正确",type:"error"})
-                        }
-                    }).catch(error => {
-                        ElMessage({ message: error, type: "error" })
-                        return;
-                    });
+                    user_id: this.$store.getters.status.userid,
+                    old_pw: this.oldPassword,
+                    new_pw: this.input
+                }).then(response => {
+                    if (response.data.success === true) {
+                        ElMessage({ message: "修改成功", type: "success" })
+                    }
+                    else {
+                        ElMessage({ message: "修改失败，请确认旧密码是否正确", type: "error" })
+                    }
+                }).catch(error => {
+                    ElMessage({ message: error, type: "error" })
+                    return;
+                });
             }
             else {
-                    this.$http.post("/api/modifyinfo", {
-                        user_id:this.$store.getters.status.userid,
-                        modify_which: which,
-                        modify_content: this.input
-                    }).then().catch(error => {
-                        ElMessage({ message: error, type: "error" })
-                        return;
-                    });
-                    ElMessage({message:"修改成功",type:"success"})
-                    if (which === "phonenum") {
-                        this.userinfo.phonenum = this.input;
-                        this.modifyphonenum = false;
+                if (which === "phonenum") {
+                    this.userinfo.phonenum = this.input;
+                    this.modifyphonenum = false;
+                }
+                else if (which === "email") {
+                    this.userinfo.email = this.input;
+                    this.modifyemail = false;
+                }
+                else if (which === "campus") {
+                    this.userinfo.campus = this.input;
+                    this.modifycampus = false;
+                }
+                else if (which === "address") {
+                    this.userinfo.address = this.input;
+                    this.modifyaddress = false;
+                }
+                else if(which==="money"){
+                    var num=parseFloat(this.input)
+                    if(isNaN(num)){
+                        ElMessage({message:"请输入正确的数额",type:"error"})
                     }
-                    else if (which === "email") {
-                        this.userinfo.email = this.input;
-                        this.modifyemail = false;
-                    }
-                    else if (which === "campus") {
-                        this.userinfo.campus = this.input;
-                        this.modifycampus = false;
-                    }
-                    else if (which === "address") {
-                        this.userinfo.address = this.input;
-                        this.modifyaddress = false;
+                    else{
+                        this.userinfo.money=this.userinfo.money+num;
+                        this.modifymoney=false;
+                        this.input=this.userinfo.money
                     }
                 }
+                this.$http.post("/api/modifyinfo", {
+                    user_id: this.$store.getters.status.userid,
+                    modify_which: which,
+                    modify_content: this.input
+                }).then().catch(error => {
+                    ElMessage({ message: error, type: "error" })
+                    return;
+                });
+                ElMessage({ message: "修改成功", type: "success" })
+            }
             this.input = "";
-            this.confirm="";
-            this.oldPassword= "";
+            this.confirm = "";
+            this.oldPassword = "";
         }
     },
     mounted() {
