@@ -1,57 +1,103 @@
 <template>
   <el-container>
     <el-aside width="50%">
-      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-        alt="Book Image" style="width: 100%; height: auto;">
+      <el-image :src="book.image" alt="Book Image" style="width: 100%; height: auto;"></el-image>
     </el-aside>
     <el-main>
       <div>
-        <div >
-          <h3 style="font-size:25px">{{ book.title }}</h3>
+        <div>
+          <h3 style="font-size:25px">{{ book.name }}</h3>
         </div>
+        <el-divider></el-divider>
         <div class="rounded-box">
-          <p>{{ book.description }}</p>
-          <h3 style="font-size:25px;color: rgb(0, 0, 0);">￥{{ book.price }}</h3>
-          <h3>评价:<el-rate v-model="solder.rate" disabled="true" /></h3>
-          <h3>地址:{{ solder.address }}</h3>
+          <p style="font-weight: bold;color: rgb(103, 103, 103);">{{ book.intro }}</p>
         </div>
-        <el-button type="primary" @click="buyBook">确认购买</el-button>
-          <el-button type="success" @click="addToCart">加入购物车</el-button>
+        <el-divider></el-divider>
+        <div class="rounded-box">
+          <h3 style="font-size:25px;color: rgb(0, 0, 0);">¥{{ book.price.toFixed(2) }}</h3>
+          <h3>卖家昵称:{{ seller.name }}</h3>
+          <h3>卖家所在校区:{{ seller.campus }}</h3>
+          <h3>卖家详细地址:{{ seller.address }}</h3>
+          <h3>卖家联系电话:{{ seller.phoneNum }}</h3>
+        </div>
       </div>
     </el-main>
   </el-container>
+  <el-divider></el-divider>
+  <div style="display: flex;flex-direction: column;align-items: center;">
+    <h3 style="font-size:20px;color: rgb(83, 83, 83);">评论</h3>
+    <div id="app" style="flex-wrap: wrap;font-size: 10px;">
+    <el-table
+      :data="comments"
+      style="width: 100%;font-size: 15px;"
+      :row-class-name="tableRowClassName"
+      stripe
+    >
+      <el-table-column prop="content" label="评论内容" width="1000px"></el-table-column>
+      <el-table-column prop="name" label="评论者昵称" width="200px"></el-table-column>
+      <el-table-column prop="date" label="评论日期" width="200px"></el-table-column>
+    </el-table>
+  </div>
+  </div>
 </template>
   
 <script>
+import { ElMessage } from 'element-plus';
 export default {
   name: "DetailView",
-  props:{
-    id:Number
+  props: {
+    id: Number
   },
   data() {
     return {
+      comments: [
+        {
+          content: "这个网站很棒，我很喜欢,非常有用的信息，谢谢分享,非常有用的信息，谢谢分享，非常有用的信息，谢谢分享，非常有用的信息，谢谢分享",
+          name: "小明",
+          date: "2023-10-28",
+        },
+        {
+          content: "非常有用的信息，谢谢分享",
+          name: "小红",
+          date: "2023-10-27",
+        },
+        {
+          content: "我觉得这个网站有点乱，不太好用",
+          name: "小李",
+          date: "2023-10-26",
+        },
+        {
+          content: "这个网站的设计很美观，很符合我的审美",
+          name: "小花",
+          date: "2023-10-25",
+        },
+      ],
       book: {
-        title: '计算机组成原理',
-        description: '书的介绍红红火火恍恍惚惚或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或',
-        price: '30',
-        authorReview: 5
+        id: 1,
+        name: 'Vue.js实战',
+        intro: '本书从Vue.js的基础知识开始，逐步介绍了Vue.js的核心概念和高级特性，如组件、过渡、路由、状态管理等，最后通过一个完整的电商项目实战，让读者掌握Vue.js的开发流程和方法。',
+        image: 'https://img3m0.ddimg.cn/16/19/27978910-1_l_3.jpg',
+        price: 69.00
       },
-      solder: {
-        rate: 4,
+      seller: {
+        name: "faqfaq",
         address: "学院路大运村",
+        campus:"校区",
+        phoneNum:"1355555",
       }
     }
   },
-  methods: {
-    buyBook() {
-      // 购买书籍的逻辑
-    },
-    addToCart() {
-      // 将书籍添加到购物车的逻辑
-    }
-  },
-  mounted(){
+  mounted() {
     console.log(this.id);
+    this.$http.post("/api/getdetail",{
+      book_id:this.book.id
+    }).then(response=>{
+      this.seller=response.data.seller
+      this.book=response.data.book
+      this.comments=response.data.comments
+    }).catch(error=>{
+      ElMessage({ message: error, type: "error" })
+    })
   }
 }
 </script>
@@ -74,13 +120,14 @@ export default {
 }
 
 .rounded-box {
-  background-color: #fafafa;
+  background-color: #f5f5f5;
   /* 灰色背景 */
   border-radius: 10px;
-  margin-top:50px;
-  margin-bottom: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   /* 圆角 */
   padding: 20px;
   /* 内边距 */
-}</style>
+}
+</style>
   

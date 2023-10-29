@@ -90,7 +90,6 @@ import mainPage from '@/components/MainPage.vue'
 import cart from '@/components/Cart.vue'
 import bought from '@/components/Bought.vue'
 import shopping from '@/components/Shopping.vue'
-import detail from '@/components/Detail.vue'
 import userinfo from '@/components/Userinfo.vue'
 import boughtHistory from '@/components/BoughtHistory.vue'
 import message from '@/components/Message.vue'
@@ -104,7 +103,7 @@ export default {
   data() {
     return {
       username: this.$store.getters.status.username,
-      mainContent: 'shopping',
+      mainContent: 'mainPage',
       isCollapse: true,
     };
   },
