@@ -65,7 +65,7 @@ export default {
     return {
       show: false,
       msg: "",
-      items: [{ id: 1, name: "1111", }],
+      items: [{ id: 1, name: "1111",prize:100.111 }],
     }
   },
   methods: {

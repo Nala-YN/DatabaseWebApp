@@ -78,7 +78,7 @@ export default {
       showComment:false,
       msg: "",
       comment:"",
-      items: [{ id: 1, name: "1111", }],
+      items: [{ id: 1, name: "1111",prize:9329.32 }],
     }
   },
   methods: {

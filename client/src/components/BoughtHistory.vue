@@ -53,7 +53,7 @@ export default {
   name: "BoughtHistoryView",
   data() {
     return {
-      items: [{ id: 1, name: "1111", }],
+      items: [{ id: 1, name: "1111",prize:100.1000 }],
     }
   },
   mounted() {
