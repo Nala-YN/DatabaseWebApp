@@ -63,7 +63,6 @@ export default {
       });
     },
     goToRegister() {
-      // 使用编程式导航跳转到注册页面
       this.$router.push({ name: 'register' });
     }
   },

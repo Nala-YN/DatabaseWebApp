@@ -81,6 +81,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'NAME': 'db21373160',  # 数据库名称
         'USER': '21373160',  # 数据库用户名

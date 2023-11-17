@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
   else {
     // 如果没有登录，则跳转到登录页面，并传递目标路径
     if (!login) {
-      if(to.path!='/login'){
+      if(to.path!='/login'&&to.path!='/register'){
         next({
           path: '/login',
         })
