@@ -235,7 +235,7 @@ def getuserinfo(request):
                 'campus': get_info[0]['user_campus'],
                 'address': get_info[0]['user_address'],
                 'money': get_info[0]['user_money']}
-
+    print(userinfo)
     response = {'userinfo': userinfo}
     return JsonResponse(response)
 

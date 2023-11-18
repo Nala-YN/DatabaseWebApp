@@ -14,7 +14,7 @@
         </div>
         <el-divider></el-divider>
         <div class="rounded-box">
-          <h3 style="font-size:25px;color: rgb(0, 0, 0);">¥{{ book.price.toFixed(2) }}</h3>
+          <h3 style="font-size:25px;color: rgb(0, 0, 0);">¥{{ toFixed2(book.price) }}</h3>
           <h3>卖家昵称:{{ seller.name }}</h3>
           <h3>卖家所在校区:{{ seller.campus }}</h3>
           <h3>卖家详细地址:{{ seller.address }}</h3>
@@ -86,6 +86,12 @@ export default {
         phoneNum:"1355555",
       }
     }
+  },
+  methods:{
+    toFixed2(str){
+      let num = Number(str);
+      return isNaN(num) ? str : num.toFixed(2);
+    },
   },
   mounted() {
     console.log(this.id);

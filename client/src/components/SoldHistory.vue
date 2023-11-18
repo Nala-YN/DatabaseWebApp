@@ -17,7 +17,7 @@
               <h3>{{ item.intro }}</h3>
             </el-col>
             <el-col :span="3" class="centered-col">
-              <h3>¥{{ item.prize.toFixed(2) }}</h3>
+              <h3>¥{{ toFixed2(item.price) }}</h3>
             </el-col>
             <el-col :span="3" class="centered-col">
               <h3>{{ item.buyerName }}</h3>
@@ -54,7 +54,7 @@ Mock.mock('/api/data', {
     'datetime': '@datetime()',
     'sellerName': '@cname()',
     'phoneNum': '@integer(11111111111,11111111112)',
-    'prize': '@integer(10,20)',
+    'price': '@integer(10,20)',
     'intro': '@ctitle(4, 20)',
   }]
 })
@@ -65,10 +65,14 @@ export default {
     return {
       show: false,
       msg: "",
-      items: [{ id: 1, name: "1111",prize:100.111 }],
+      items: [{ id: 1, name: "1111",price:100.111 }],
     }
   },
   methods: {
+    toFixed2(str) {
+            let num = Number(str);
+            return isNaN(num) ? str : num.toFixed(2);
+        },
     sendMsg(index) {
       if(this.msg===""){
         ElMessage({ message: "消息内容不能为空", type: "error" })

@@ -7,7 +7,7 @@
                 <el-descriptions-item label="邮箱" :span="2">{{ userinfo.email }}</el-descriptions-item>
                 <el-descriptions-item label="所在校区">{{ userinfo.campus }}</el-descriptions-item>
                 <el-descriptions-item label="详细地址">{{ userinfo.address }}</el-descriptions-item>
-                <el-descriptions-item label="账户余额">{{ userinfo.money.toFixed(2) }}</el-descriptions-item>
+                <el-descriptions-item label="账户余额">{{ toFixed2(userinfo.money) }}</el-descriptions-item>
             </el-descriptions>
             <div style="padding-top: 30px;">
                 <el-button type="primary" class=“button” size=“large” style="align-items:end"
@@ -76,20 +76,24 @@ export default {
                 email: "2654133250@qq.com",
                 campus: "学院路校区",
                 address: "大运村",
-                money:114.54545
+                money: 114.54545
             },
             modifyphonenum: false,
             modifypassword: false,
             modifyemail: false,
             modifycampus: false,
             modifyaddress: false,
-            modifymoney:false,
+            modifymoney: false,
             input: "",
             confirm: "",
             oldPassword: ""
         }
     },
     methods: {
+        toFixed2(str) {
+            let num = Number(str);
+            return isNaN(num) ? str : num.toFixed(2);
+        },
         modify(which) {
             if (which === "password") {
                 if (this.input != this.confirm) {
@@ -129,15 +133,15 @@ export default {
                     this.userinfo.address = this.input;
                     this.modifyaddress = false;
                 }
-                else if(which==="money"){
-                    var num=parseFloat(this.input)
-                    if(isNaN(num)){
-                        ElMessage({message:"请输入正确的数额",type:"error"})
+                else if (which === "money") {
+                    var num = parseFloat(this.input)
+                    if (isNaN(num)) {
+                        ElMessage({ message: "请输入正确的数额", type: "error" })
                     }
-                    else{
-                        this.userinfo.money=this.userinfo.money+num;
-                        this.modifymoney=false;
-                        this.input=this.userinfo.money
+                    else {
+                        this.userinfo.money = this.userinfo.money + num;
+                        this.modifymoney = false;
+                        this.input = this.userinfo.money
                     }
                 }
                 this.$http.post("/api/modifyinfo", {

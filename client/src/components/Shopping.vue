@@ -29,7 +29,7 @@
                 <el-col :span="1">
                 </el-col>
                 <el-col :span="2">
-                  ¥{{ book.price.toFixed(2) }}
+                  ¥{{ toFixed2(book.price) }}
                 </el-col>
               </el-row>
               <el-button type="success" round class="button" size="large" @click.stop="addToCart(index)">加入购物车</el-button>
@@ -79,6 +79,10 @@ export default {
     };
   },
   methods: {
+    toFixed2(str){
+      let num = Number(str);
+      return isNaN(num) ? str : num.toFixed(2);
+    },
     search(){
       this.$http.post("/api/searchbooks",{
         user_id: this.$store.getters.status.userid,

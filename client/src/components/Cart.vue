@@ -27,7 +27,7 @@
                 <el-col :span="1">
                 </el-col>
                 <el-col :span="2">
-                  ¥{{ book.price.toFixed(2) }}
+                  ¥{{ toFixed2(book.price) }}
                 </el-col>
               </el-row>
               <el-button type="primary" class="button" size="large" @click.stop="buyBook(index)">确认购买</el-button>
@@ -88,12 +88,16 @@ export default {
     sumPrice() {
       var sum = 0.0;
       this.books.forEach(element => {
-        sum = sum + element.price
+        sum = sum + parseFloat(element.price)
       });
       return sum.toFixed(2);
     }
   },
   methods: {
+    toFixed2(str){
+      let num = Number(str);
+      return isNaN(num) ? str : num.toFixed(2);
+    },
     buyAll() {
       this.$http.post('/api/buyAll', {
         user_id: this.$store.getters.status.userid,
