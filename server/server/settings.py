@@ -90,6 +90,10 @@ DATABASES = {
         'PASSWORD': 'Aa021720',  # 数据库密码
         'HOST': '120.46.80.149',  # 数据库主机，为GaussDB实例的公网地址
         'PORT': '3306',  # 数据库端口，一般为3306
+        'OPTIONS': {
+            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"',
+            'charset': 'utf8mb4'
+        }
     }
 }
 
@@ -118,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 

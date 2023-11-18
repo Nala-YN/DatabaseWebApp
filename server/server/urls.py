@@ -20,6 +20,11 @@ from myApp import views as LoginView
 urlpatterns = [
     path('api/register', LoginView.register),
     path('api/login', LoginView.login),
-    path('api/upload',LoginView.upload)
-    # path('register_info/', LoginView.register_info)
+    path('api/upload', LoginView.upload),
+    path('api/uploadsell', LoginView.uploadsell),
+    path('api/uploadpost', LoginView.uploadpost),
+    path('api/getallpost', LoginView.getallpost),
+    path('api/getuserpost', LoginView.getuserpost),
+    path('api/deletepost', LoginView.deletepost),
+    path('api/getuserinfo', LoginView.getuserinfo)
 ]
