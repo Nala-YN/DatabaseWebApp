@@ -15,15 +15,15 @@
       <transition-group name="list" tag="div">
         <div v-for="(book, index) in books" :key="book.name" class="list-item">
           <el-card @click="gotoDetail(index)" style="cursor: pointer;" class="elcard">
-            <el-row style="  display: flex;align-items: center;height: 120px;">
-            <el-col :span="5" class="centered-col">
-              <el-image :src="book.image" class="image"></el-image>
+            <el-row >
+            <el-col :span="4" class="centered-col" style="height:120px ;">
+                <el-image :fit='scale-down' :src="book.image" class="image" ></el-image>
             </el-col>
-            <el-col :span="3" class="centered-col">
+            <el-col :span="4" class="centered-col">
               <h3>{{ book.name }}</h3>
             </el-col>
-            <el-col :span="6" class="centered-col">
-              <h3>{{ book.intro }}</h3>
+            <el-col :span="7" class="centered-col" >
+              {{ book.intro }}
             </el-col>
             <el-col :span="3" class="centered-col">
               <h3>¥{{ toFixed2(book.price) }}</h3>
@@ -135,9 +135,9 @@ export default {
 }
 
 .image {
-  margin-left: 20px;
-  /* 距离左边的距离 */
-  margin-right: 50px;
+  display: flex; align-items: center; justify-content: center;
+  height: 100%;
+  width: auto;
 }
 
 .list-item {
@@ -156,6 +156,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  word-break: break-all;
 }
 .button {
   margin-left: 50px;

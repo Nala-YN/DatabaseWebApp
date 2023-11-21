@@ -34,26 +34,12 @@
 </template>
   
 <script>
-import axios from 'axios';
-import Mock from 'mockjs';
 import { ElMessage } from "element-plus"
-Mock.mock('/api/data', {
-  'list|10-20': [{
-    'id|+1': 1,
-    'name': '@ctitle(10, 20)',
-    'image': '@image(\'200x100\', \'#50B347\', \'Hello\')',
-    'datetime': '@datetime()',
-    'sellerName': '@cname()',
-    'phoneNum': '@integer(11111111111,11111111112)',
-    'price': '@integer(10,20)',
-    'intro': '@ctitle(4, 20)',
-  }]
-})
 export default {
   name: "BoughtHistoryView",
   data() {
     return {
-      items: [{ id: 1, name: "1111",price:100.1000 }],
+      items: [],
     }
   },
   methods:{

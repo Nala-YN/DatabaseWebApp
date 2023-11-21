@@ -59,29 +59,7 @@ export default {
     return {
       isDetail: false,
       detailId: 1,
-      books: [
-        {
-          id: 1,
-          name: 'Vue.js实战',
-          intro: '本书从Vue.js的基础知识开始，逐步介绍了Vue.js的核心概念和高级特性，如组件、过渡、路由、状态管理等，最后通过一个完整的电商项目实战，让读者掌握Vue.js的开发流程和方法。',
-          image: 'https://img3m0.ddimg.cn/16/19/27978910-1_l_3.jpg',
-          price: 69.00
-        },
-        {
-          id: 2,
-          name: 'JavaScript高级程序设计（第4版）',
-          intro: '本书是JavaScript领域的经典著作，全面讲解了JavaScript语言的核心概念和实践技巧。本书不仅涵盖了ECMAScript 2019（ES10）的最新内容，还介绍了如何在现代Web浏览器中使用JavaScript开发客户端应用程序。',
-          image: 'https://img3m0.ddimg.cn/72/6/28402910-1_l_3.jpg',
-          price: 99.00
-        },
-        {
-          id: 3,
-          name: 'CSS揭秘',
-          intro: '本书深入浅出地介绍了CSS的各种新特性和技巧，如渐变、遮罩、滤镜、字体、动画等，让读者能够轻松实现各种炫酷的效果。本书适合所有对CSS感兴趣的读者，无论是初学者还是高手。',
-          image: 'https://img3m0.ddimg.cn/8/21/25203310-1_l_3.jpg',
-          price: 79.00
-        }
-      ],
+      books: [],
     };
   },
   computed: {
@@ -99,6 +77,10 @@ export default {
       return isNaN(num) ? str : num.toFixed(2);
     },
     buyAll() {
+      if(this.books.length===0){
+        ElMessage({ message: "您的购物车里还没有书籍", type: "error" })
+        return
+      }
       this.$http.post('/api/buyAll', {
         user_id: this.$store.getters.status.userid,
       }).then(response => {
