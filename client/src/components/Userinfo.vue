@@ -139,7 +139,7 @@ export default {
                         ElMessage({ message: "请输入正确的数额", type: "error" })
                     }
                     else {
-                        this.userinfo.money = this.userinfo.money + num;
+                        this.userinfo.money = parseFloat(this.userinfo.money) + num;
                         this.modifymoney = false;
                         this.input = this.userinfo.money
                     }

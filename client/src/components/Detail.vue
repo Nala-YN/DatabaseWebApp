@@ -18,7 +18,7 @@
           <h3>卖家昵称:{{ seller.name }}</h3>
           <h3>卖家所在校区:{{ seller.campus }}</h3>
           <h3>卖家详细地址:{{ seller.address }}</h3>
-          <h3>卖家联系电话:{{ seller.phoneNum }}</h3>
+          <h3>卖家联系电话:{{ seller.phonenum }}</h3>
         </div>
       </div>
     </el-main>
@@ -96,7 +96,7 @@ export default {
   mounted() {
     console.log(this.id);
     this.$http.post("/api/getdetail",{
-      book_id:this.book.id
+      book_id:this.id
     }).then(response=>{
       this.seller=response.data.seller
       this.book=response.data.book
