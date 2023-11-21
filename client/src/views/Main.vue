@@ -53,7 +53,7 @@
             <div v-if="mainContent === 'userinfo'"><h3 class="h3">用户信息</h3></div>
           </div>
           <div class="right">
-            <h3 class="h3" style="padding-right: 3vh;">你好，{{ username }}</h3>
+            <h3 class="h3" style="padding-right: 3vh;">{{ username }},  欢迎来到书觅</h3>
             <!-- 把el-button放在el-dropdown的slot中 -->
             <el-dropdown trigger="click" placement="bottom-end" :hide-on-click=false @command="handleCommand">
               <el-button size="large" icon="UserFilled" :circle=true :plain=true></el-button>

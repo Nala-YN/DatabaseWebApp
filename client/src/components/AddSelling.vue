@@ -17,7 +17,6 @@
           :http-request="uploadFile" :before-upload="handleUpload" :limit="1">
           <i class="el-icon-plus"></i>
         </el-upload>
-        <!-- <el-image style="width: 100px; height: 100px" :src="url" /> -->
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('form')">发布</el-button>
@@ -44,8 +43,6 @@ export default {
   },
   methods: {
     submitForm() {
-      // 这里是你的发布逻辑，可以发送请求到后端或者其他操作
-      //console.log(this.fileList)
       this.$http.post('/api/uploadsell',
         {
           user_id:this.$store.getters.status.userid,
@@ -72,25 +69,23 @@ export default {
     },
     uploadFile(file) {
       console.log(file);
-      // 这里是你的上传前的验证逻辑，可以检查文件类型和大小等
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onload = () => {
         this.base64 = reader.result;
+        console.log(this.base64)
       }
     },
     handleUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < 10; // 判断文件是否小于2MB
+      const isLt10M = file.size / 1024 / 1024 < 10; 
       if (!isLt10M) {
-        // 如果文件大于2MB
-        ElMessage({ message: '上传图片大小不能超过 10MB', type: "error" }); // 弹出错误信息
-        return false; // 停止上传
+        ElMessage({ message: '上传图片大小不能超过 10MB', type: "error" });
+        return false;
       }
-      const isImage = file.type.startsWith("image/"); // 判断文件是否是图片类型
+      const isImage = file.type.startsWith("image/");
       if (!isImage) {
-        // 如果文件不是图片类型
-        ElMessage({ message: '只能上传图片格式', type: "error" });// 弹出错误信息
-        return false; // 停止上传
+        ElMessage({ message: '只能上传图片格式', type: "error" });
+        return false;
       }
       return true;
     },

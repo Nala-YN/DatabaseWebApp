@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024*1024*10
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

@@ -77,10 +77,10 @@ def login(request):
     return JsonResponse(response)
 
 
-def upload(request):
+def uploadsell(request):
     request_dict = json.loads(request.body.decode('utf-8'))
-    base64_str = request_dict.get('image')
-    ori_str = base64_str  # 把这个上传到数据库，代表图片，可能要用blob类型
+    base64_str = request_dict.get('book_image')
+    ori_str = base64_str
     base64_str = base64_str.split(',')[1]
     image_data = base64.b64decode(base64_str)
     with open('image.jpg', 'wb') as f:
@@ -90,7 +90,7 @@ def upload(request):
 
 
 # 上传书籍信息
-def uploadsell(request):
+def upload(request):
     assert request.method == "POST"
     request_dict = json.loads(request.body.decode('utf-8'))
 
@@ -99,8 +99,7 @@ def uploadsell(request):
     book_intro = request_dict['book_intro']
     book_price = request_dict['book_price']
     book_image = request_dict['book_image']
-    base64_str = book_image
-    image_data = base64.b64decode(base64_str)
+    image_data = book_image.split(',')[1]
     response = {
         'success': False,
         'message': '',

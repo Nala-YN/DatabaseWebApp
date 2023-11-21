@@ -56,9 +56,9 @@
         </div>
     </el-dialog>
     <el-dialog v-model="modifypassword" title="修改密码" width="30%">
-        <el-input v-model="oldPassword" placeholder="请输入旧密码" />
-        <el-input v-model="input" placeholder="请输入新的密码" style="padding-top: 10px;" />
-        <el-input v-model="confirm" placeholder="确认新的密码" style="padding-top: 10px;" />
+        <el-input v-model="oldPassword" type="password" placeholder="请输入旧密码" />
+        <el-input v-model="input" type="password" placeholder="请输入新的密码" style="padding-top: 10px;" />
+        <el-input v-model="confirm" type="password" placeholder="确认新的密码" style="padding-top: 10px;" />
         <div style="display:flex;justify-content: end;padding-top: 10px;">
             <el-button type="primary" class=“button” size=“large” @click="modify('password')">确认修改</el-button>
         </div>
