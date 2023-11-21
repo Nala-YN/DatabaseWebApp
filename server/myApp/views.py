@@ -4,7 +4,6 @@ import json
 import sys
 
 sys.path.append('../')
-import pymysql.cursors
 from myApp.models import user_info
 from myApp.models import sell_book
 from myApp.models import post
@@ -14,7 +13,6 @@ from myApp.models import order
 from myApp.models import comment
 from django.db.models import Max
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse
 
 # Create your views here.
 
@@ -98,9 +96,10 @@ def uploadsell(request):
     book_name = request_dict['book_name']
     book_intro = request_dict['book_intro']
     book_price = request_dict['book_price']
-    book_image = request_dict['book_image']
-    base64_str = book_image
-    image_data = base64.b64decode(base64_str)
+    book_image = request_dict.get('book_image')
+    with open('image', 'w') as f:
+        f.write(book_image)
+    image_data = base64.b64decode(book_image)
     response = {
         'success': False,
         'message': '',
@@ -446,6 +445,9 @@ def getbooks(request):
         i['name'] = i.pop('sell_book_name')
         i['intro'] = i.pop('sell_book_intro')
         i['image'] = str(base64.b64encode(i.pop('sell_book_photo')))
+        i['image'] = tobase64(i['image'])
+        with open('test', 'w') as f:
+            f.write(i['image'])
         i['price'] = i.pop('sell_book_price')
         books.append(i)
 
@@ -471,6 +473,7 @@ def searchbooks(request):
         i['name'] = i.pop('sell_book_name')
         i['intro'] = i.pop('sell_book_intro')
         i['image'] = str(base64.b64encode(i.pop('sell_book_photo')))
+        i['image'] = tobase64(i['image'])
         i['price'] = i.pop('sell_book_price')
         books.append(i)
 
@@ -494,7 +497,7 @@ def getdetail(request):
     book = {'id': book_id,
             'name': book_info[0]['sell_book_name'],
             'intro': book_info[0]['sell_book_intro'],
-            'image': str(base64.b64encode(book_info[0]['sell_book_photo'])),
+            'image': tobase64(str(base64.b64encode(book_info[0]['sell_book_photo']))),
             'price': book_info[0]['sell_book_price']}
 
     seller_info = user_info.objects.filter(user_id=seller_id).values('user_name', 'user_address', 'user_campus',
@@ -543,6 +546,7 @@ def getbought(request):
         i['intro'] = i.pop('order_book_intro')
         i['price'] = i.pop('order_book_price')
         i['image'] = str(base64.b64encode(i.pop('order_book_photo')))
+        i['image'] = tobase64(i['image'])
         seller_info = user_info.objects.filter(user_id=i['order_merchant_id']).values('user_name', 'user_phonenum')
         i['sellerName'] = seller_info[0]['user_name']
         i['phoneNum'] = seller_info[0]['user_phonenum']
@@ -653,6 +657,7 @@ def getboughtHistory(request):
         i['intro'] = i.pop('order_book_intro')
         i['price'] = i.pop('order_book_price')
         i['image'] = str(base64.b64encode(i.pop('order_book_photo')))
+        i['image'] = tobase64(i['image'])
         seller_info = user_info.objects.filter(user_id=i['order_merchant_id']).values('user_name', 'user_phonenum')
         i['sellerName'] = seller_info[0]['user_name']
         i['phoneNum'] = seller_info[0]['user_phonenum']
@@ -682,6 +687,7 @@ def getcart(request):
         i['intro'] = book_info[0]['sell_book_intro']
         i['price'] = book_info[0]['sell_book_price']
         i['image'] = str(base64.b64encode(book_info[0]['sell_book_photo']))
+        i['image'] = tobase64(i['image'])
         books.append(i)
 
     response = {'books': books}
@@ -779,6 +785,7 @@ def getsold(request):
         i['intro'] = i.pop('order_book_intro')
         i['price'] = i.pop('order_book_price')
         i['image'] = str(base64.b64encode(i.pop('order_book_photo')))
+        i['image'] = tobase64(i['image'])
         buyer_info = user_info.objects.filter(user_id=i['order_customer_id']).values('user_name', 'user_phonenum')
         i['buyerName'] = buyer_info[0]['user_name']
         i['phoneNum'] = buyer_info[0]['user_phonenum']
@@ -787,3 +794,11 @@ def getsold(request):
 
     response = {'items': items}
     return JsonResponse(response)
+
+
+def tobase64(half_base64):
+    half_base64 = half_base64.replace("'", "", 2)
+    half_base64 = half_base64[1:]
+    half_base64 = half_base64.replace("data", "data:")
+    half_base64 = half_base64.replace("base64", ";base64,")
+    return half_base64
