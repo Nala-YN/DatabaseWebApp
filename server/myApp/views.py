@@ -97,8 +97,6 @@ def uploadsell(request):
     book_intro = request_dict['book_intro']
     book_price = request_dict['book_price']
     book_image = request_dict.get('book_image')
-    with open('image', 'w') as f:
-        f.write(book_image)
     image_data = base64.b64decode(book_image)
     response = {
         'success': False,
@@ -296,7 +294,6 @@ def getMsgs(request):
     request_dict = json.loads(request.body.decode('utf-8'))
 
     user_id = request_dict['user_id']
-    print(user_id)
 
     messages = message.objects.filter(receive_id=user_id).order_by('message_id'). \
         values('message_id', 'from_solder', 'send_id', 'message_time', 'message_content')
@@ -446,8 +443,6 @@ def getbooks(request):
         i['intro'] = i.pop('sell_book_intro')
         i['image'] = str(base64.b64encode(i.pop('sell_book_photo')))
         i['image'] = tobase64(i['image'])
-        with open('test', 'w') as f:
-            f.write(i['image'])
         i['price'] = i.pop('sell_book_price')
         books.append(i)
 
