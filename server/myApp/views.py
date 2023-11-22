@@ -14,6 +14,7 @@ from myApp.models import comment
 from django.db.models import Max
 from django.http import JsonResponse
 
+
 # Create your views here.
 
 
@@ -400,7 +401,6 @@ def buybook(request):
                                                                  'sell_book_name',
                                                                  'sell_book_photo', 'sell_book_price')
 
-
     sell_id = book_info[0]['sell_merchant_id']
     intro = book_info[0]['sell_book_intro']
     name = book_info[0]['sell_book_name']
@@ -772,7 +772,7 @@ def getsold(request):
 
     user_id = request_dict['user_id']
 
-    order_info = order.objects.filter(order_merchant_id=user_id, order_status="未完成").\
+    order_info = order.objects.filter(order_merchant_id=user_id, order_status="未完成"). \
         values('order_id', 'order_book_name', 'order_book_intro', 'order_book_price', 'order_book_photo',
                'order_customer_id')
 
@@ -793,6 +793,47 @@ def getsold(request):
 
     response = {'items': items}
     return JsonResponse(response)
+
+
+# 获取卖家在售书籍信息
+def getOnsale(request):
+    assert request.method == "POST"
+    request_dict = json.loads(request.body.decode('utf-8'))
+
+    user_id = request_dict['user_id']
+
+    book_infos = sell_book.objects.filter(sell_merchant_id=user_id).values('sell_id', 'sell_book_intro',
+                                                                           'sell_book_name',
+                                                                           'sell_book_photo', 'sell_book_price')
+
+    items = []
+    for i in book_infos:
+        i['id'] = i.pop('sell_id')
+        i['name'] = i.pop('sell_book_name')
+        i['intro'] = i.pop('sell_book_intro')
+        i['price'] = i.pop('sell_book_price')
+        i['image'] = str(base64.b64encode(i.pop('sell_book_photo')))
+        i['image'] = tobase64(i['image'])
+        items.append(i)
+
+    response = {'items': items}
+    return JsonResponse(response)
+
+
+# 卖家撤回在售书籍
+def withdrawOnsale(request):
+    assert request.method == "POST"
+    request_dict = json.loads(request.body.decode('utf-8'))
+
+    item_id = request_dict['item_id']
+
+    book_id = sell_book.objects.filter(sell_id=item_id).values('sell_id')
+    if len(book_id) >= 1:
+        sell_book.objects.get(sell_id=item_id).delete()
+
+    response = {'success': True}
+    return JsonResponse(response)
+
 
 
 def tobase64(half_base64):
