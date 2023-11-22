@@ -307,15 +307,19 @@ def getMsgs(request):
         i['day'] = int(str(i['message_time']).split('-')[2])
         i.pop('message_time')
         i['content'] = i.pop('message_content')
-        send_info = user_info.objects.filter(user_id=user_id).values('user_name', 'user_phonenum')
-        send_name = send_info[0]['user_name']
-        send_phone = send_info[0]['user_phonenum']
-        i['phoneNum'] = send_phone
         if i['from_solder'] == 0:
+            send_info = user_info.objects.filter(user_id=user_id).values('user_name', 'user_phonenum')
+            send_name = send_info[0]['user_name']
+            send_phone = send_info[0]['user_phonenum']
+            i['phoneNum'] = send_phone
             i['buyerName'] = send_name
             i.pop('from_solder')
             buyerMsgs.append(i)
         elif i['from_solder'] == 1:
+            send_info = user_info.objects.filter(user_id=i['send_id']).values('user_name', 'user_phonenum')
+            send_name = send_info[0]['user_name']
+            send_phone = send_info[0]['user_phonenum']
+            i['phoneNum'] = send_phone
             i['sellerName'] = send_name
             i.pop('from_solder')
             sellerMsgs.append(i)

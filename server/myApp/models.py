@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class user_info(models.Model):
-    user_id = models.CharField(max_length=64, primary_key=True)
+    user_id = models.IntegerField(primary_key=True)
     user_password = models.CharField(max_length=64)
     user_name = models.CharField(max_length=64)
     user_phonenum = models.CharField(max_length=11)
@@ -29,7 +29,7 @@ class sell_book(models.Model):
 
 
 class post(models.Model):
-    post_id = models.CharField(max_length=64, primary_key=True)
+    post_id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(user_info, on_delete=models.CASCADE)
     title = models.CharField(max_length=256)
     content = models.CharField(max_length=256)
@@ -40,7 +40,7 @@ class post(models.Model):
 
 
 class message(models.Model):
-    message_id = models.CharField(max_length=64, primary_key=True)
+    message_id = models.IntegerField(primary_key=True)
     from_solder = models.IntegerField()
     send = models.ForeignKey(user_info, related_name='+', on_delete=models.CASCADE)
     receive = models.ForeignKey(user_info, related_name='+', on_delete=models.CASCADE)
