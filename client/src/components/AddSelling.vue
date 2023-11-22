@@ -83,7 +83,7 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onload = () => {
-        this.base64 = reader.result.split(',')[1];
+        this.base64 = reader.result;
         console.log(this.base64)
       }
     },
