@@ -309,7 +309,7 @@ def getMsgs(request):
         i.pop('message_time')
         i['content'] = i.pop('message_content')
         if i['from_solder'] == 0:
-            send_info = user_info.objects.filter(user_id=user_id).values('user_name', 'user_phonenum')
+            send_info = user_info.objects.filter(user_id=i['send_id']).values('user_name', 'user_phonenum')
             send_name = send_info[0]['user_name']
             send_phone = send_info[0]['user_phonenum']
             i['phoneNum'] = send_phone
