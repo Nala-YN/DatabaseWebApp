@@ -423,7 +423,7 @@ def buybook(request):
         message_id = 1  # 若为空，id为1
 
     message.objects.create(message_id=message_id, from_solder=0, send_id=user_id, receive_id=sell_id,
-                           message_content="您的书籍" + name + "已有人购买，请您与其联系")
+                           message_content="您的书籍《" + name + "》已有人购买，请您与其联系")
 
     response['success'] = True
     return JsonResponse(response)
