@@ -59,30 +59,14 @@
                     </transition-group>
                 </el-tab-pane>
             </el-tabs>
-        </el-header>
-        <el-header style="display:flex;align-items: center;justify-content: center; padding-top: 20px;">
+            <el-header style="display:flex;align-items: center;justify-content: center; padding-top: 20px;">
             <el-button type="danger" @click="clearAllMessages">清除所有消息</el-button> </el-header>
+        </el-header>
     </el-container>
 </template>
   
 <script>
-import Mock from 'mockjs';
-import axios from 'axios'
 import { ElMessage } from 'element-plus'
-Mock.mock('/api/getBuyerMsgs', {
-    'list|10-20': [{
-        'content': '@ctitle(30, 100)',
-        'phoneNum': '@ctitle(8,14)',
-        'sellerName': '@ctitle(2,9)',
-    }]
-})
-Mock.mock('/api/getSellerMsgs', {
-    'list|10-20': [{
-        'content': '@ctitle(30, 100)',
-        'phoneNum': '@ctitle(8,14)',
-        'sellerName': '@ctitle(2,9)',
-    }]
-})
 export default {
     name: "MsgView",
     data() {
@@ -110,6 +94,9 @@ export default {
             this.sellerMessages.splice(index, 1);
         },
         clearAllMessages() {
+            if(this.buyerMessages.length===0&&this.sellerMessages.length===0){
+                ElMessage({ message: "没有可以删除的消息", type: "error" })
+            }
             this.$http.post("/api/rmUserMsg",{
                 user_id: this.$store.getters.status.userid,
             }).catch(error=>{

@@ -5,7 +5,7 @@
     </detail>
   </div>
   <div v-show="isDetail === false">
-    <el-container direction="vertical">
+    <el-container direction="vertical" v-loading="loading">
       <el-header style="height:10vh;display: flex;justify-content: center;padding-top: 10px;">
         <div style="height:10vh ;width: 100vh;">
           <el-input v-model="input" placeholder="请输入书名" style="font-size: 20px;padding-right: 20px;" />
@@ -55,6 +55,7 @@ export default {
       detailId: 1,
       books: [],
       input: "",
+      loading:true,
     };
   },
   methods: {
@@ -119,6 +120,7 @@ export default {
     }).catch(error=>{
       ElMessage({ message: error, type: "error" })
     })
+    this.loading=false
   },
   components: { ElHeader, detail }
 }

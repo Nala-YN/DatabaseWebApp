@@ -9,6 +9,7 @@ import VTooltip from 'v-tooltip'
 import service from './axios'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 const app = createApp(App)
+document.title="书觅"
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }

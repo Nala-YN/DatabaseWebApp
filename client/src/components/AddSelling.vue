@@ -7,7 +7,7 @@
       </el-form-item>
       <el-form-item label="书籍介绍">
         <el-input type="textarea" v-model="intro" placeholder="请输入书籍介绍：如作者、出版社、新旧程度等"
-          :autosize="{ minRows: 5, maxRows: 10 }"></el-input>
+          :autosize="{ minRows: 5, maxRows: 10 }" maxlength="150" show-word-limit="true"></el-input>
       </el-form-item>
       <el-form-item label="书籍价格">
         <el-input-number v-model="price" :min="0" :step="1" controls-position="right"></el-input-number>

@@ -1,8 +1,8 @@
 <template>
-  <div v-if="items.length === 0" style="display: flex;justify-content: center;align-items: center;">
+  <el-container direction="vertical" v-loading="loading">
+    <div v-if="items.length === 0 && this.loading===false" style="display: flex;justify-content: center;align-items: center;">
     <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有已购买的书籍哦</h3>
   </div>
-  <el-container direction="vertical">
     <transition-group name="list" tag="div">
       <div v-for="(item, index) in items" :key="item.id" class="list-item">
         <el-card class="card">
@@ -13,16 +13,18 @@
             <el-col :span="4" class="centered-col">
               <h3>{{ item.name }}</h3>
             </el-col>
-            <el-col :span="5" class="centered-col">
-              <h3>{{ item.intro }}</h3>
+            <el-col :span="1" class="centered-col">
             </el-col>
-            <el-col :span="3" class="centered-col">
+            <el-col :span="7" class="centered-col">
+              {{ item.intro }}
+            </el-col>
+            <el-col :span="2" class="centered-col">
               <h3>¥{{ toFixed2(item.price) }}</h3>
             </el-col>
             <el-col :span="3" class="centered-col">
               <h3>{{ item.sellerName }}</h3>
             </el-col>
-            <el-col :span="4" class="centered-col">
+            <el-col :span="3" class="centered-col">
               <h3>联系方式:<br>{{ item.phoneNum }}</h3>
             </el-col>
           </el-row>
@@ -65,6 +67,7 @@ export default {
       msg: "",
       comment:"",
       items: [],
+      loading:true,
     }
   },
   methods: {
@@ -113,6 +116,7 @@ export default {
     }).catch(error => {
       ElMessage({ message: error, type: "error" })
     })
+    this.loading=false
   }
 }
 </script>

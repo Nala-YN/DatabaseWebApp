@@ -1,5 +1,6 @@
 <template>
-  <el-container>
+  <div v-loading="loading">
+    <el-container>
     <el-aside width="50%">
       <el-image :src="book.image" alt="Book Image" style="width: 100%; height: auto;" ></el-image>
     </el-aside>
@@ -39,6 +40,7 @@
     </el-table>
   </div>
   </div>
+  </div>
 </template>
   
 <script>
@@ -53,11 +55,12 @@ export default {
       comments: [],
       book: {},
       seller: {
-        name: "faqfaq",
-        address: "学院路大运村",
-        campus:"校区",
-        phoneNum:"1355555",
-      }
+        name: "",
+        address: "",
+        campus:"",
+        phoneNum:"",
+      },
+      loading:true
     }
   },
   methods:{
@@ -77,6 +80,7 @@ export default {
     }).catch(error=>{
       ElMessage({ message: error, type: "error" })
     })
+    this.loading=false
   }
 }
 </script>

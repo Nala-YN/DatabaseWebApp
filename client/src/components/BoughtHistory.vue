@@ -1,8 +1,8 @@
 <template>
-  <div v-if="items.length === 0" style="display: flex;justify-content: center;align-items: center;">
-    <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有历史购买的书籍哦</h3>
-  </div>
-  <el-container direction="vertical">
+  <el-container direction="vertical" v-loading="this.loading">
+    <div v-if="items.length === 0&& this.loading===false" style="display: flex;justify-content: center;align-items: center;">
+      <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有历史购买的书籍哦</h3>
+    </div>
     <transition-group name="list" tag="div">
       <div v-for="(item) in items" :key="item.id" class="list-item">
         <el-card class="card">
@@ -40,14 +40,15 @@ export default {
   data() {
     return {
       items: [],
+      loading: true
     }
   },
-  methods:{
-      toFixed2(str) {
-            let num = Number(str);
-            return isNaN(num) ? str : num.toFixed(2);
-        },
+  methods: {
+    toFixed2(str) {
+      let num = Number(str);
+      return isNaN(num) ? str : num.toFixed(2);
     },
+  },
   mounted() {
     this.$http.post('/api/getboughtHistory', {
       user_id: this.$store.getters.status.userid,
@@ -56,6 +57,7 @@ export default {
     }).catch(error => {
       ElMessage({ message: error, type: "error" })
     })
+    this.loading = false
   }
 }
 </script>
