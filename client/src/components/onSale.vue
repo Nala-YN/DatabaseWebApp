@@ -60,6 +60,7 @@ export default {
             })
             this.show = false;
             ElMessage({ message: "撤回成功", type: "success" })
+            this.items.splice(index, 1);
         }
     },
     mounted() {

@@ -1,6 +1,7 @@
 <template>
-  <div v-if="isDetail===true" style="position: relative;">
-    <el-button @click="closeDetail()" icon="Close" circle size="large" type="danger" style="position: absolute; top: 0; right: 0;"></el-button>
+  <div v-if="isDetail === true" style="position: relative;">
+    <el-button @click="closeDetail()" icon="Close" circle size="large" type="danger"
+      style="position: absolute; top: 0; right: 0;"></el-button>
     <detail :id="detailId">
     </detail>
   </div>
@@ -15,26 +16,27 @@
       <transition-group name="list" tag="div">
         <div v-for="(book, index) in books" :key="book.name" class="list-item">
           <el-card @click="gotoDetail(index)" style="cursor: pointer;" class="elcard">
-            <el-row >
-            <el-col :span="4" class="centered-col" style="height:120px ;">
-                <el-image :fit='scale-down' :src="book.image" class="image" ></el-image>
-            </el-col>
-            <el-col :span="4" class="centered-col">
-              <h3>{{ book.name }}</h3>
-            </el-col>
-            <el-col :span="7" class="centered-col" >
-              {{ book.intro }}
-            </el-col>
-            <el-col :span="3" class="centered-col">
-              <h3>¥{{ toFixed2(book.price) }}</h3>
-            </el-col>
-            <el-col :span="3" class="centered-col">
-              <el-button type="success" round class="button" size="large" @click.stop="addToCart(index)">加入购物车</el-button>
-            </el-col>
-            <el-col :span="3" class="centered-col">
-              <el-button type="primary" round class="button" size="large" @click.stop="buyBook(index)">确认购买</el-button>
-            </el-col>
-          </el-row>
+            <el-row>
+              <el-col :span="4" class="centered-col" style="height:120px ;">
+                <el-image :fit='scale - down' :src="book.image" class="image"></el-image>
+              </el-col>
+              <el-col :span="4" class="centered-col">
+                <h3>{{ book.name }}</h3>
+              </el-col>
+              <el-col :span="7" class="centered-col">
+                {{ book.intro }}
+              </el-col>
+              <el-col :span="3" class="centered-col">
+                <h3>¥{{ toFixed2(book.price) }}</h3>
+              </el-col>
+              <el-col :span="3" class="centered-col">
+                <el-button type="success" round class="button" size="large"
+                  @click.stop="addToCart(index)">加入购物车</el-button>
+              </el-col>
+              <el-col :span="3" class="centered-col">
+                <el-button type="primary" round class="button" size="large" @click.stop="buyBook(index)">确认购买</el-button>
+              </el-col>
+            </el-row>
           </el-card>
           <el-divider></el-divider>
         </div>
@@ -55,33 +57,33 @@ export default {
       detailId: 1,
       books: [],
       input: "",
-      loading:true,
+      loading: true,
     };
   },
   methods: {
-    toFixed2(str){
+    toFixed2(str) {
       let num = Number(str);
       return isNaN(num) ? str : num.toFixed(2);
     },
-    search(){
-      this.$http.post("/api/searchbooks",{
+    search() {
+      this.$http.post("/api/searchbooks", {
         user_id: this.$store.getters.status.userid,
-        content:this.input
-      }).then(response=>{
-        this.books=response.data.books
-      }).catch(error=>{
+        content: this.input
+      }).then(response => {
+        this.books = response.data.books
+      }).catch(error => {
         ElMessage({ message: error, type: "error" })
       })
     },
-    closeDetail(){
-      this.isDetail=false;
+    closeDetail() {
+      this.isDetail = false;
     },
     buyBook(index) {
       this.$http.post('/api/buybook', {
         user_id: this.$store.getters.status.userid,
         item_id: this.books[index].id,
-      }).then(response=>{
-        if(response.data.success===false){
+      }).then(response => {
+        if (response.data.success === false) {
           ElMessage({ message: "购买失败，余额不足请充值", type: "error" })
         }
       }
@@ -108,40 +110,34 @@ export default {
       })
     },
     gotoDetail(index) {
-      this.isDetail=true;
-      this.detailId =this.books[index].id;
+      this.isDetail = true;
+      this.detailId = this.books[index].id;
     }
   },
-  mounted(){
-    this.$http.post("/api/getbooks",{
+  mounted() {
+    this.$http.post("/api/getbooks", {
       user_id: this.$store.getters.status.userid,
-    }).then(response=>{
-      this.books=response.data.books
-    }).catch(error=>{
+    }).then(response => {
+      this.books = response.data.books
+    }).catch(error => {
       ElMessage({ message: error, type: "error" })
     })
-    this.loading=false
+    this.loading = false
   },
   components: { ElHeader, detail }
 }
 </script>
 
 <style scoped>
-.text.item {
-  margin-bottom: 20px;
-}
 
-.card {
-  height: 100px;
-  border-radius: 100px;
-}
 
 .image {
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   width: auto;
 }
-
 .list-item {
   transition: all 0.5s ease;
 }
@@ -154,12 +150,14 @@ export default {
   transform: translateX(100%);
   opacity: 0;
 }
+
 .centered-col {
   display: flex;
   justify-content: center;
   align-items: center;
   word-break: break-all;
 }
+
 .button {
   margin-left: 50px;
   margin-right: 20px;
@@ -167,5 +165,4 @@ export default {
 
 .elcard:hover {
   border: 2px solid rgb(144, 205, 255);
-}
-</style>
+}</style>

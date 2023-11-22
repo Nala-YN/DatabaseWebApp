@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { ElMessage } from 'element-plus';
 export default {
   data() {
@@ -43,6 +42,18 @@ export default {
   },
   methods: {
     submitForm() {
+      if(this.name===""){
+        ElMessage({message:"书名不能为空",type:"error"})
+        return
+      }
+      else if(this.intro===""){
+        ElMessage({message:"书籍介绍不能为空",type:"error"})
+        return
+      }
+      else if(this.base64===""){
+        ElMessage({message:"书籍图片不能为空",type:"error"})
+        return
+      }
       this.$http.post('/api/uploadsell',
         {
           user_id:this.$store.getters.status.userid,
@@ -72,7 +83,7 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onload = () => {
-        this.base64 = reader.result;
+        this.base64 = reader.result.split(',')[1];
         console.log(this.base64)
       }
     },

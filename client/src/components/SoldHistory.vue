@@ -4,7 +4,7 @@
   </div>
   <el-container direction="vertical" v-loading="this.loading">
     <transition-group name="list" tag="div">
-      <div v-for="(item, index) in items" :key="item.id" class="list-item">
+      <div v-for="(item, index) in items" :key="item.id">
         <el-card class="card">
           <el-row style="  display: flex;align-items: center;height: 160px;">
             <el-col :span="4" class="centered-col">
@@ -93,10 +93,6 @@ export default {
 </script>
   
 <style scoped>
-.text.item {
-  margin-bottom: 20px;
-}
-
 .centered-col {
   display: flex;
   justify-content: center;
@@ -112,19 +108,6 @@ export default {
   margin-left: 20px;
   /* 距离左边的距离 */
   margin-right: 50px;
-}
-
-.list-item {
-  transition: all 0.5s ease;
-}
-
-.list-leave-active {
-  position: absolute;
-}
-
-.list-leave-to {
-  transform: translateX(100%);
-  opacity: 0;
 }
 
 .button {
