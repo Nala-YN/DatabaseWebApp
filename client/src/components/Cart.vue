@@ -5,8 +5,8 @@
     <detail :id="detailId">
     </detail>
   </div>
-  <div v-show="isDetail === false" style="height: 100vh;">
-    <div v-if="this.books.length === 0" style="display: flex;justify-content: center;align-items: center;">
+  <div v-show="isDetail === false" style="height: 100vh;" v-loading="loading">
+    <div v-if="this.books.length === 0 && this.loading===false" style="display: flex;justify-content: center;align-items: center;">
       <h3 style=" color: rgb(126, 126, 126);padding-bottom: 65vh;font-size: 22px;">购物车里还没有书籍哦</h3>
     </div>
     <el-container direction="vertical">
@@ -14,24 +14,26 @@
         <div v-for="(book, index) in books" :key="book.name" class="list-item">
           <el-card @click="gotoDetail(index)" style="cursor: pointer;" class="elcard">
             <div class="card">
-              <el-image :src="book.image" class="image"></el-image>
               <el-row>
-                <el-col :span="2">
+                <el-col :span="4" class="centered-col" style="height:120px ;">
+                <el-image :fit='scale-down' :src="book.image" class="image" ></el-image>
+            </el-col>
+                <el-col :span="4" class="centered-col">
                   {{ book.name }}
                 </el-col>
-                <el-col :span="1">
-                </el-col>
-                <el-col :span="16">
+                <el-col :span="7" class="centered-col">
                   {{ book.intro }}
                 </el-col>
-                <el-col :span="1">
-                </el-col>
-                <el-col :span="2">
+                <el-col :span="3" class="centered-col">
                   ¥{{ toFixed2(book.price) }}
                 </el-col>
+                <el-col :span="3" class="centered-col">
+                  <el-button type="primary" class="button" size="large" @click.stop="buyBook(index)">确认购买</el-button>
+                </el-col>
+                <el-col :span="3" class="centered-col">
+                  <el-button type="success" class="button" size="large" @click.stop="rmFromCart(index)">移出购物车</el-button>
+                </el-col>
               </el-row>
-              <el-button type="primary" class="button" size="large" @click.stop="buyBook(index)">确认购买</el-button>
-              <el-button type="success" class="button" size="large" @click.stop="rmFromCart(index)">移出购物车</el-button>
             </div>
           </el-card>
           <el-divider></el-divider>
@@ -60,6 +62,7 @@ export default {
       isDetail: false,
       detailId: 1,
       books: [],
+      loading:true,
     };
   },
   computed: {
@@ -77,8 +80,10 @@ export default {
       return isNaN(num) ? str : num.toFixed(2);
     },
     buyAll() {
+      this.loading=true
       if(this.books.length===0){
         ElMessage({ message: "您的购物车里还没有书籍", type: "error" })
+        this.loading=false
         return
       }
       this.$http.post('/api/buyAll', {
@@ -87,13 +92,17 @@ export default {
         if (response.data.success === false) {
           ElMessage({ message: "购买失败，余额不足请充值", type: "error" })
         }
+        else{
+          ElMessage({ message: "购买成功，请您与售书者联系", type: "success" })
+          this.books = []
+        }
+        this.loading=false
       }
       ).catch(error => {
         ElMessage({ message: error, type: "error" })
+        this.loading=false
         return;
       })
-      ElMessage({ message: "购买成功，请您与售书者联系", type: "success" })
-      this.books = []
     },
     closeDetail() {
       this.isDetail = false;
@@ -135,6 +144,9 @@ export default {
     }).catch(error => {
       ElMessage({ message: error, type: "error" })
     })
+    setTimeout(()=>{
+      this.loading=false
+    }, 1000 )
   },
   components: { detail }
 }
@@ -176,7 +188,12 @@ export default {
   margin-left: 50px;
   margin-right: 20px;
 }
-
+.centered-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-break: break-all;
+}
 .elcard:hover {
   border: 2px solid rgb(144, 205, 255);
 }

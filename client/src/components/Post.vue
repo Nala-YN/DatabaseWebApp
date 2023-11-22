@@ -32,7 +32,6 @@
 
 <script>
 import Mock from 'mockjs';
-import axios from 'axios'
 import { ElMessage } from 'element-plus';
 Mock.mock('/api/getuserpost', {
   'list|10-20': [{
@@ -45,53 +44,7 @@ export default {
   data() {
     return {
       activeTab: "all",
-      posts: [
-        {
-          id: 1,
-          title: "哈哈哈",
-          username: "faqfaq",
-          content: "This is the first card.",
-          year: 2002,
-          month: 9,
-          day: 6
-        },
-        {
-          id: 2,
-          title: "Card 2",
-          username: "faqfaq",
-          content: "This is the second card.",
-          year: 2002,
-          month: 9,
-          day: 6
-        },
-        {
-          id: 3,
-          title: "Card 3",
-          username: "faqfaq",
-          content: "This is the third card.",
-          year: 2002,
-          month: 9,
-          day: 6
-        },
-        {
-          id: 4,
-          title: "Card 4",
-          username: "faqfaq",
-          content: "This is the fourth card.",
-          year: 2002,
-          month: 9,
-          day: 6
-        },
-        {
-          id: 5,
-          title: "Card 5",
-          username: "faqfaq",
-          content: "This is the fifth card.",
-          year: 2002,
-          month: 9,
-          day: 6
-        },
-      ],
+      posts: [],
       myposts: []
     }
   },
@@ -147,9 +100,7 @@ h3 {
   text-align: center;
 }
 
-p {
-  text-align: center;
-}
+
 
 .floating-button {
   position: fixed;

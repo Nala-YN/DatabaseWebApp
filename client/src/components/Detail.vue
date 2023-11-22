@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside width="50%">
-      <el-image :src="book.image" alt="Book Image" style="width: 100%; height: auto;"></el-image>
+      <el-image :src="book.image" alt="Book Image" style="width: 100%; height: auto;" ></el-image>
     </el-aside>
     <el-main>
       <div>
@@ -50,35 +50,8 @@ export default {
   },
   data() {
     return {
-      comments: [
-        {
-          content: "这个网站很棒，我很喜欢,非常有用的信息，谢谢分享,非常有用的信息，谢谢分享，非常有用的信息，谢谢分享，非常有用的信息，谢谢分享",
-          name: "小明",
-          date: "2023-10-28",
-        },
-        {
-          content: "非常有用的信息，谢谢分享",
-          name: "小红",
-          date: "2023-10-27",
-        },
-        {
-          content: "我觉得这个网站有点乱，不太好用",
-          name: "小李",
-          date: "2023-10-26",
-        },
-        {
-          content: "这个网站的设计很美观，很符合我的审美",
-          name: "小花",
-          date: "2023-10-25",
-        },
-      ],
-      book: {
-        id: 1,
-        name: 'Vue.js实战',
-        intro: '本书从Vue.js的基础知识开始，逐步介绍了Vue.js的核心概念和高级特性，如组件、过渡、路由、状态管理等，最后通过一个完整的电商项目实战，让读者掌握Vue.js的开发流程和方法。',
-        image: 'https://img3m0.ddimg.cn/16/19/27978910-1_l_3.jpg',
-        price: 69.00
-      },
+      comments: [],
+      book: {},
       seller: {
         name: "faqfaq",
         address: "学院路大运村",

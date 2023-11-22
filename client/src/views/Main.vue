@@ -24,13 +24,16 @@
             <el-menu-item index="1-5" @click='gotoBoughtHistory'>
               <h3 class="h3" style="font-size: 18px">历史购买记录</h3>
             </el-menu-item>
-            <el-menu-item index="1-6" @click='gotoSoldHistory'>
+            <el-menu-item index="1-6" @click='gotoOnsale'>
+              <h3 class="h3" style="font-size: 18px">我的在售书籍</h3>
+            </el-menu-item>
+            <el-menu-item index="1-7" @click='gotoSoldHistory'>
               <h3 class="h3" style="font-size: 18px">我已出售</h3>
             </el-menu-item>
-            <el-menu-item index="1-7" @click='gotoPost'>
+            <el-menu-item index="1-8" @click='gotoPost'>
               <h3 class="h3" style="font-size: 18px">查看求书贴</h3>
             </el-menu-item>
-            <el-menu-item index="1-8" @click='gotoAddPost'>
+            <el-menu-item index="1-9" @click='gotoAddPost'>
               <h3 class="h3" style="font-size: 18px">添加帖子</h3>
             </el-menu-item>
           </el-menu-item-group>
@@ -45,6 +48,7 @@
             <div v-if="mainContent === 'bought'"><h3 class="h3">我已购买</h3></div>
             <div v-if="mainContent === 'boughtHistory'"><h3 class="h3">历史购买记录</h3></div>
             <div v-if="mainContent === 'addselling'"><h3 class="h3">添加出售</h3></div>
+            <div v-if="mainContent === 'onsale'"><h3 class="h3">我的在售书籍</h3></div>
             <div v-if="mainContent === 'soldHistory'"><h3 class="h3">我已出售</h3></div>
             <div v-if="mainContent === 'post'"><h3 class="h3">求书帖</h3></div>
             <div v-if="mainContent === 'addpost'"><h3 class="h3">添加帖子</h3></div>
@@ -80,6 +84,7 @@
           <div v-if="mainContent === 'boughtHistory'"><boughtHistory></boughtHistory></div>
           <div v-if="mainContent === 'post'"><post></post></div>
           <div v-if="mainContent === 'addpost'"><addpost></addpost></div>
+          <div v-if="mainContent === 'onsale'"><onsale></onsale></div>
         </el-main>
       </el-container>
     </el-container>
@@ -98,6 +103,7 @@ import post from '@/components/Post.vue'
 import addpost from '@/components/AddPost.vue'
 import addselling from '@/components/AddSelling.vue'
 import soldHistory from '@/components/SoldHistory'
+import onsale from '@/components/onSale.vue'
 export default {
   name: "MainView",
   data() {
@@ -144,6 +150,9 @@ export default {
     gotoAddPost() {
       this.mainContent = 'addpost';
     },
+    gotoOnsale(){
+      this.mainContent='onsale';
+    },
     handleCommand(command) {
       // 根据不同的命令值执行不同的操作
       if (command === 'user') {
@@ -159,7 +168,7 @@ export default {
       }
     }
   },
-  components: { mainPage, cart, bought, shopping,  boughtHistory, userinfo, message,post,addpost,addselling,soldHistory}
+  components: { mainPage, cart, bought, shopping,  boughtHistory, userinfo, message,post,addpost,addselling,soldHistory,onsale}
 }
 </script>
 <style scoped>
