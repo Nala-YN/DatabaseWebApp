@@ -1,7 +1,7 @@
 <template>
     <el-container direction="vertical" v-loading="this.loading">
         <div v-if="items.length === 0 && loading === false" style="display: flex;justify-content: center;align-items: center;">
-            <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">您还没有发布在售书籍哦</h3>
+            <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">您还没有发布的在售书籍哦</h3>
         </div>
         <transition-group name="list" tag="div">
             <div v-for="(item, index) in items" :key="item.id" class="list-item">
