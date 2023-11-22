@@ -1,6 +1,6 @@
 <template>
   <div v-if="items.length === 0" style="display: flex;justify-content: center;align-items: center;">
-    <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有已售出的书籍哦</h3>
+    <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有未完成的书籍订单哦</h3>
   </div>
   <el-container direction="vertical">
     <transition-group name="list" tag="div">

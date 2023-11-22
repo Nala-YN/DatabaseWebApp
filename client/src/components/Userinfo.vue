@@ -152,7 +152,13 @@ export default {
                     ElMessage({ message: error, type: "error" })
                     return;
                 });
-                ElMessage({ message: "修改成功", type: "success" })
+                if(which==="money"){
+                    ElMessage({ message: "充值成功", type: "success" })
+                }
+                else{
+                    ElMessage({ message: "修改成功", type: "success" })
+                }
+
             }
             this.input = "";
             this.confirm = "";
