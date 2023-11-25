@@ -3,7 +3,6 @@
         <div v-if="items.length === 0 && loading === false" style="display: flex;justify-content: center;align-items: center;">
             <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">您还没有发布的在售书籍哦</h3>
         </div>
-        <transition-group name="list" tag="div">
             <div v-for="(item, index) in items" :key="item.id" class="list-item">
                 <el-card class="card">
                     <el-row style="  display: flex;align-items: center;height: 160px;">
@@ -22,16 +21,10 @@
                     </el-row>
                 </el-card>
                 <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-                    <el-button type="warning" class="button" size="large" @click="show = true">撤回在售书籍</el-button>
-                    <el-dialog v-model="show" title="确认撤回吗" width="30%">
-                        <div style="display:flex;justify-content: end;padding-top: 10px;">
-                            <el-button type="primary" class="button" size=“large” @click="withdraw(index)">确认</el-button>
-                        </div>
-                    </el-dialog>
+                    <el-button type="warning" class="button" size="large" @click="withdraw(index)">撤回在售书籍</el-button>
                 </div>
                 <el-divider></el-divider>
             </div>
-        </transition-group>
     </el-container>
 </template>
     
@@ -42,7 +35,6 @@ export default {
 
     data() {
         return {
-            show: false,
             items: [],
             loading: true
         }
@@ -101,16 +93,6 @@ export default {
 .list-item {
     transition: all 0.5s ease;
 }
-
-.list-leave-active {
-    position: absolute;
-}
-
-.list-leave-to {
-    transform: translateX(100%);
-    opacity: 0;
-}
-
 .button {
     margin-left: 50px;
     margin-right: 20px;

@@ -1,8 +1,9 @@
 <template>
   <el-container direction="vertical" v-loading="loading">
-    <div v-if="items.length === 0 && this.loading===false" style="display: flex;justify-content: center;align-items: center;">
-    <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有已购买的书籍哦</h3>
-  </div>
+    <div v-if="items.length === 0 && this.loading === false"
+      style="display: flex;justify-content: center;align-items: center;">
+      <h3 style=" color: rgb(126, 126, 126);font-size: 22px;">还没有已购买的书籍哦</h3>
+    </div>
     <transition-group name="list" tag="div">
       <div v-for="(item, index) in items" :key="item.id" class="list-item">
         <el-card class="card">
@@ -30,19 +31,19 @@
           </el-row>
         </el-card>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" title="确认收货？" @confirm="showComment=true">
+          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" title="确认收货？" @confirm="showComment = true">
             <template #reference>
               <el-button type="primary" class="button" size="large">确认收货</el-button>
             </template>
           </el-popconfirm>
-          <el-dialog v-model="showComment" title="请添加对卖家的评论" width="30%">
+          <el-dialog v-model="showComment" title="请添加对卖家的评论" width="30%" >
             <el-input v-model="comment" placeholder="请输入评论内容" />
-            <div style="display:flex;justify-content: end;padding-top: 10px;">
+            <div style="display:flex;justify-content: end;padding-top: 10px;" :modal="false">
               <el-button type="primary" class=“button” size=“large” @click="confirmReceive(index)">确认</el-button>
             </div>
           </el-dialog>
-          <el-button type="success" class="button" size="large" @click="show=true">发送消息</el-button>
-          <el-dialog v-model="show" title="向卖家发送消息" width="30%">
+          <el-button type="success" class="button" size="large" @click="show = true">发送消息</el-button>
+          <el-dialog v-model="show" title="向卖家发送消息" width="30%" :modal="false">
             <el-input v-model="msg" placeholder="请输入消息内容" />
             <div style="display:flex;justify-content: end;padding-top: 10px;">
               <el-button type="primary" class="button" size=“large” @click="sendMsg(index)">确认</el-button>
@@ -63,48 +64,48 @@ export default {
   data() {
     return {
       show: false,
-      showComment:false,
+      showComment: false,
       msg: "",
-      comment:"",
+      comment: "",
       items: [],
-      loading:true,
+      loading: true,
     }
   },
   methods: {
-    toFixed2(str){
+    toFixed2(str) {
       let num = Number(str);
       return isNaN(num) ? str : num.toFixed(2);
     },
     confirmReceive(index) {
-      if(this.comment===""){
+      if (this.comment === "") {
         ElMessage({ message: "评论不能为空", type: "error" })
         return;
       }
       this.$http.post("/api/confirm", {
         item_id: this.items[index].id,
-        content:this.comment
+        content: this.comment
       }).then().catch(error => {
         ElMessage({ message: error, type: "error" })
       })
-      this.showComment=false;
-      this.comment="";
+      this.showComment = false;
+      this.comment = "";
       ElMessage({ message: "确认收货成功", type: "success" })
       this.items.splice(index, 1);
     },
     sendMsg(index) {
-      if(this.msg===""){
+      if (this.msg === "") {
         ElMessage({ message: "消息内容不能为空", type: "error" })
         return;
       }
       this.$http.post("/api/sendMsg", {
         item_id: this.items[index].id,
-        content:this.msg,
-        from_which:0
+        content: this.msg,
+        from_which: 0
       }).then().catch(error => {
         ElMessage({ message: error, type: "error" })
       })
-      this.show=false;
-      this.msg="";
+      this.show = false;
+      this.msg = "";
       ElMessage({ message: "发送消息成功", type: "success" })
     }
   },
@@ -116,7 +117,7 @@ export default {
     }).catch(error => {
       ElMessage({ message: error, type: "error" })
     })
-    this.loading=false
+    this.loading = false
   }
 }
 </script>

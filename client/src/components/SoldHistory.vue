@@ -31,7 +31,7 @@
         </el-card>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
           <el-button type="success" class="button" size="large" @click="show=true">发送消息</el-button>
-          <el-dialog v-model="show" title="向买家发送消息" width="30%">
+          <el-dialog v-model="show" title="向买家发送消息" width="30%" :modal="false">
             <el-input v-model="msg" placeholder="请输入消息内容" />
             <div style="display:flex;justify-content: end;padding-top: 10px;">
               <el-button type="primary" class="button" size=“large” @click="sendMsg(index)">确认</el-button>

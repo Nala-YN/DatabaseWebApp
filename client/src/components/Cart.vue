@@ -129,6 +129,8 @@ export default {
       }).then().catch(error => {
         ElMessage({ message: error, type: "error" })
       })
+      ElMessage({ message: "移除成功", type: "success" })
+      this.books.splice(index,1)
     },
     gotoDetail(index) {
       this.isDetail = true;
