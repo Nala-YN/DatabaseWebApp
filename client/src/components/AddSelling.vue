@@ -79,7 +79,6 @@ export default {
       this.fileList = [];
     },
     uploadFile(file) {
-      console.log(file);
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onload = () => {

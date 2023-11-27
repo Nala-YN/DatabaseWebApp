@@ -6,8 +6,8 @@
             <div v-for="(item, index) in items" :key="item.id" class="list-item">
                 <el-card class="card">
                     <el-row style="  display: flex;align-items: center;height: 160px;">
-                        <el-col :span="5" class="centered-col">
-                            <el-image :src="item.image" class="image"></el-image>
+                        <el-col :span="5" class="centered-col" style="height:160px ;">
+                            <el-image  :src="item.image" class="image"></el-image>
                         </el-col>
                         <el-col :span="5" class="centered-col">
                             <h3>{{ item.name }}</h3>
@@ -77,6 +77,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    word-break: break-all;
 }
 
 .card {
@@ -85,9 +86,11 @@ export default {
 }
 
 .image {
-    margin-left: 20px;
-    /* 距离左边的距离 */
-    margin-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
 }
 
 .list-item {

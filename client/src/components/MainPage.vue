@@ -1,7 +1,7 @@
 <template>
     <div class="button-container">
         <el-button class="el-button" round @click="gotoShopping">
-            <div><el-icon size="60px"><ShoppingCart /></el-icon>
+            <div><el-icon size="60px"><Goods /></el-icon>
             <br>
             <h3 style="font-size: 20px ;">我要购买</h3>
             </div>

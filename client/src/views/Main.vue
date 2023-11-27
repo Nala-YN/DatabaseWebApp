@@ -10,31 +10,31 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="1-1" @click='gotoMainPage'>
-              <h3 class="h3" style="font-size: 18px">首页</h3>
+              <el-icon size="20" style="padding-right:10px ;"><House /></el-icon><h3 class="h3" style="font-size: 18px">首页</h3>
             </el-menu-item>
             <el-menu-item index="1-2" @click='gotoMessage'>
-              <h3 class="h3" style="font-size: 18px">我的消息</h3>
+              <el-icon size="20" style="padding-right:10px ;"><Message /></el-icon><h3 class="h3" style="font-size: 18px">我的消息</h3>
             </el-menu-item>
             <el-menu-item index="1-3" @click='gotoCart'>
-              <h3 class="h3" style="font-size: 18px">购物车</h3>
+              <el-icon size="20" style="padding-right:10px ;"><ShoppingCart /></el-icon><h3 class="h3" style="font-size: 18px">购物车</h3>
             </el-menu-item>
             <el-menu-item index="1-4" @click='gotoBought'>
-              <h3 class="h3" style="font-size: 18px">我已购买</h3>
+              <el-icon size="20" style="padding-right:10px ;"><ShoppingBag /></el-icon><h3 class="h3" style="font-size: 18px">我已购买</h3>
             </el-menu-item>
             <el-menu-item index="1-5" @click='gotoBoughtHistory'>
-              <h3 class="h3" style="font-size: 18px">历史购买记录</h3>
+              <el-icon size="20" style="padding-right:10px ;"><Finished /></el-icon><h3 class="h3" style="font-size: 18px">历史购买记录</h3>
             </el-menu-item>
             <el-menu-item index="1-6" @click='gotoOnsale'>
-              <h3 class="h3" style="font-size: 18px">我的在售书籍</h3>
+              <el-icon size="20" style="padding-right:10px ;"><Sell /></el-icon><h3 class="h3" style="font-size: 18px">我的在售书籍</h3>
             </el-menu-item>
             <el-menu-item index="1-7" @click='gotoSoldHistory'>
-              <h3 class="h3" style="font-size: 18px">我已出售</h3>
+              <el-icon size="20" style="padding-right:10px ;"><GoodsFilled /></el-icon><h3 class="h3" style="font-size: 18px">我已出售</h3>
             </el-menu-item>
             <el-menu-item index="1-8" @click='gotoPost'>
-              <h3 class="h3" style="font-size: 18px">查看求书贴</h3>
+              <el-icon size="20" style="padding-right:10px ;"><CollectionTag /></el-icon><h3 class="h3" style="font-size: 18px">查看求书贴</h3>
             </el-menu-item>
             <el-menu-item index="1-9" @click='gotoAddPost'>
-              <h3 class="h3" style="font-size: 18px">添加帖子</h3>
+              <el-icon size="20" style="padding-right:10px ;"><Edit /></el-icon><h3 class="h3" style="font-size: 18px">添加帖子</h3>
             </el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
