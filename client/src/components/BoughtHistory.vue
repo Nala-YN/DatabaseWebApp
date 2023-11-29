@@ -6,15 +6,15 @@
     <transition-group name="list" tag="div">
       <div v-for="(item) in items" :key="item.id" class="list-item">
         <el-card class="card">
-          <el-row style="  display: flex;align-items: center;height: 160px;">
-            <el-col :span="4" class="centered-col">
+          <el-row style="  display: flex;align-items: center;height: 100px;">
+            <el-col :span="4" class="centered-col" style="height: 100px;">
               <el-image :src="item.image" class="image"></el-image>
             </el-col>
             <el-col :span="4" class="centered-col">
               <h3>{{ item.name }}</h3>
             </el-col>
             <el-col :span="5" class="centered-col">
-              <h3>{{ item.intro }}</h3>
+              {{ item.intro }}
             </el-col>
             <el-col :span="3" class="centered-col">
               <h3>¥{{ toFixed2(item.price) }}</h3>
@@ -71,17 +71,20 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  word-break: break-all;
 }
 
 .card {
-  height: 200px;
+  height: 150px;
   border-radius: 30px;
 }
 
 .image {
-  margin-left: 20px;
-  /* 距离左边的距离 */
-  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
 }
 
 .list-item {

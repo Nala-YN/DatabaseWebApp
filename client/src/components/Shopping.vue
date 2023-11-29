@@ -86,13 +86,15 @@ export default {
         if (response.data.success === false) {
           ElMessage({ message: "购买失败，余额不足请充值", type: "error" })
         }
+        else {
+          ElMessage({ message: "购买成功，请您与售书者联系", type: "success" })
+          this.books.splice(index, 1)
+        }
       }
       ).catch(error => {
         ElMessage({ message: error, type: "error" })
         return;
       })
-      ElMessage({ message: "购买成功，请您与售书者联系", type: "success" })
-      this.books.splice(index, 1)
     },
     addToCart(index) {
       this.$http.post('/api/addtocart', {
@@ -129,8 +131,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .image {
   display: flex;
   align-items: center;
@@ -138,6 +138,7 @@ export default {
   height: 100%;
   width: auto;
 }
+
 .list-item {
   transition: all 0.5s ease;
 }
@@ -165,4 +166,5 @@ export default {
 
 .elcard:hover {
   border: 2px solid rgb(144, 205, 255);
-}</style>
+}
+</style>

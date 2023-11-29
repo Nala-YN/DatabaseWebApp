@@ -5,14 +5,14 @@
         </div>
             <div v-for="(item, index) in items" :key="item.id" class="list-item">
                 <el-card class="card">
-                    <el-row style="  display: flex;align-items: center;height: 160px;">
-                        <el-col :span="5" class="centered-col" style="height:160px ;">
+                    <el-row style="  display: flex;align-items: center;height: 100px;">
+                        <el-col :span="3" class="centered-col" style="height:100px ;">
                             <el-image  :src="item.image" class="image"></el-image>
                         </el-col>
                         <el-col :span="5" class="centered-col">
                             <h3>{{ item.name }}</h3>
                         </el-col>
-                        <el-col :span="10" class="centered-col">
+                        <el-col :span="12" class="centered-col">
                             {{ item.intro }}
                         </el-col>
                         <el-col :span="4" class="centered-col">
@@ -81,7 +81,7 @@ export default {
 }
 
 .card {
-    height: 200px;
+    height: 150px;
     border-radius: 30px;
 }
 

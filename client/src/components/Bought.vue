@@ -8,7 +8,7 @@
       <div v-for="(item, index) in items" :key="item.id" class="list-item">
         <el-card class="card">
           <el-row style="  display: flex;align-items: center;height: 160px;">
-            <el-col :span="4" class="centered-col">
+            <el-col :span="4" class="centered-col" style="height: 160px;">
               <el-image :src="item.image" class="image"></el-image>
             </el-col>
             <el-col :span="4" class="centered-col">
@@ -43,7 +43,7 @@
             </div>
           </el-dialog>
           <el-button type="success" class="button" size="large" @click="show = true">发送消息</el-button>
-          <el-dialog v-model="show" title="向卖家发送消息" width="30%" :modal="false">
+          <el-dialog v-model="show" title="向卖家发送消息" width="30%" >
             <el-input v-model="msg" placeholder="请输入消息内容" />
             <div style="display:flex;justify-content: end;padding-top: 10px;">
               <el-button type="primary" class="button" size=“large” @click="sendMsg(index)">确认</el-button>
@@ -139,11 +139,12 @@ export default {
 }
 
 .image {
-  margin-left: 20px;
-  /* 距离左边的距离 */
-  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
 }
-
 .list-item {
   transition: all 0.5s ease;
 }

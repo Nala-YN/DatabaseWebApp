@@ -582,7 +582,7 @@ def confirm(request):
         message_id = 1  # 若为空，id为1
 
     message.objects.create(message_id=message_id, from_solder=0, send_id=send_id, receive_id=receive_id,
-                           message_content="您的书籍" + name + "的买家已确认收到书籍")
+                           message_content="您的书籍《" + name + "》的买家已确认收到书籍")
 
     seller = user_info.objects.get(user_id=receive_id)
     seller.user_money = float(seller.user_money) + float(price)

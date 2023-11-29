@@ -1,28 +1,34 @@
 <template>
     <div style="display: flex; justify-content: center; padding-top: 10vh; height: 100vh;">
-        <el-card style="width: 70vw;height: 18vw;">
-            <el-descriptions direction="vertical" :column="4" :size="size" border>
-                <el-descriptions-item label="账号">{{ userinfo.username }}</el-descriptions-item>
-                <el-descriptions-item label="电话号码">{{ userinfo.phonenum }}</el-descriptions-item>
-                <el-descriptions-item label="邮箱" :span="2">{{ userinfo.email }}</el-descriptions-item>
-                <el-descriptions-item label="所在校区">{{ userinfo.campus }}</el-descriptions-item>
-                <el-descriptions-item label="详细地址">{{ userinfo.address }}</el-descriptions-item>
-                <el-descriptions-item label="账户余额">{{ toFixed2(userinfo.money) }}</el-descriptions-item>
-            </el-descriptions>
-            <div style="padding-top: 30px;">
-                <el-button type="primary" class=“button” size=“large” style="align-items:end"
-                    @click="modifyphonenum = true">修改电话号码</el-button>
-                <el-button type="primary" class=“button” size=“large” style="align-items:end"
-                    @click="modifyemail = true">修改邮箱</el-button>
-                <el-button type="primary" class=“button” size=“large” style="align-items:end"
-                    @click="modifycampus = true">修改所在校区</el-button>
-                <el-button type="primary" class=“button” size=“large” style="align-items:end"
-                    @click="modifyaddress = true">修改详细地址</el-button>
-                <el-button type="primary" class=“button” size=“large” style="align-items:end"
-                    @click="modifypassword = true">修改密码</el-button>
-                <el-button type="primary" class=“button” size=“large” style="align-items:end"
-                    @click="modifymoney = true">充值账户余额</el-button>
-            </div>
+        <el-card style="width: 70vw;height: 43vw;">
+            <el-container>
+                <el-container> <el-aside width="500px" style="display: flex;justify-content:center;align-items: center;">
+                    <el-avatar shape="square" :size="300" :src='image_src' /></el-aside>
+                    <el-main> <el-descriptions direction="vertical" :column="1" :size="size" border>
+                            <el-descriptions-item label="账号">{{ userinfo.username }}</el-descriptions-item>
+                            <el-descriptions-item label="电话号码">{{ userinfo.phonenum }}</el-descriptions-item>
+                            <el-descriptions-item label="邮箱" :span="2">{{ userinfo.email }}</el-descriptions-item>
+                            <el-descriptions-item label="所在校区">{{ userinfo.campus }}</el-descriptions-item>
+                            <el-descriptions-item label="详细地址">{{ userinfo.address }}</el-descriptions-item>
+                            <el-descriptions-item label="账户余额">{{ toFixed2(userinfo.money) }}</el-descriptions-item>
+                        </el-descriptions></el-main></el-container>
+                <el-footer>
+                    <div style="padding-top: 30px;">
+                        <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                            @click="modifyphonenum = true">修改电话号码</el-button>
+                        <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                            @click="modifyemail = true">修改邮箱</el-button>
+                        <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                            @click="modifycampus = true">修改所在校区</el-button>
+                        <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                            @click="modifyaddress = true">修改详细地址</el-button>
+                        <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                            @click="modifypassword = true">修改密码</el-button>
+                        <el-button type="primary" class=“button” size=“large” style="align-items:end"
+                            @click="modifymoney = true">充值账户余额</el-button>
+                    </div>
+                </el-footer>
+            </el-container>
         </el-card>
     </div>
     <el-dialog v-model="modifyphonenum" title="修改电话号码" width="30%">
@@ -78,6 +84,7 @@ export default {
                 address: "大运村",
                 money: 114.54545
             },
+            image_src:"https://img.puchedu.cn/uploads/2/253/2649383158/203006361.jpg",
             modifyphonenum: false,
             modifypassword: false,
             modifyemail: false,
@@ -152,10 +159,10 @@ export default {
                     ElMessage({ message: error, type: "error" })
                     return;
                 });
-                if(which==="money"){
+                if (which === "money") {
                     ElMessage({ message: "充值成功", type: "success" })
                 }
-                else{
+                else {
                     ElMessage({ message: "修改成功", type: "success" })
                 }
 
