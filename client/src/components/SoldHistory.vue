@@ -30,17 +30,17 @@
           </el-row>
         </el-card>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <el-button type="success" class="button" size="large" @click="show=true">发送消息</el-button>
-          <el-dialog v-model="show" title="向买家发送消息" width="30%">
-            <el-input v-model="msg" placeholder="请输入消息内容" />
-            <div style="display:flex;justify-content: end;padding-top: 10px;">
-              <el-button type="primary" class="button" size=“large” @click="sendMsg(index)">确认</el-button>
-            </div>
-          </el-dialog>
+          <el-button type="success" class="button" size="large" @click="show=true;curIndex=index">发送消息</el-button>
         </div>
         <el-divider></el-divider>
       </div>
     </transition-group>
+    <el-dialog v-model="show" title="向买家发送消息" width="30%">
+            <el-input v-model="msg" placeholder="请输入消息内容" />
+            <div style="display:flex;justify-content: end;padding-top: 10px;">
+              <el-button type="primary" class="button" size=“large” @click="sendMsg()">确认</el-button>
+            </div>
+          </el-dialog>
   </el-container>
 </template>
   
@@ -55,6 +55,7 @@ export default {
       msg: "",
       items: [],
       loading:true,
+      curIndex:0,
     }
   },
   methods: {
@@ -62,13 +63,13 @@ export default {
             let num = Number(str);
             return isNaN(num) ? str : num.toFixed(2);
         },
-    sendMsg(index) {
+    sendMsg() {
       if(this.msg===""){
         ElMessage({ message: "消息内容不能为空", type: "error" })
         return;
       }
       this.$http.post("/api/sendMsg", {
-        item_id: this.items[index].id,
+        item_id: this.items[this.curIndex].id,
         content:this.msg,
         from_which:1
       }).then().catch(error => {

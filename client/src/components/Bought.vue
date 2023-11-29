@@ -31,28 +31,28 @@
           </el-row>
         </el-card>
         <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" title="确认收货？" @confirm="showComment = true">
+          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" title="确认收货？" @confirm="showComment = true;curIndex=index">
             <template #reference>
               <el-button type="primary" class="button" size="large">确认收货</el-button>
             </template>
           </el-popconfirm>
-          <el-dialog v-model="showComment" title="请添加对卖家的评论" width="30%" >
-            <el-input v-model="comment" placeholder="请输入评论内容" />
-            <div style="display:flex;justify-content: end;padding-top: 10px;" :modal="false">
-              <el-button type="primary" class=“button” size=“large” @click="confirmReceive(index)">确认</el-button>
-            </div>
-          </el-dialog>
-          <el-button type="success" class="button" size="large" @click="show = true">发送消息</el-button>
-          <el-dialog v-model="show" title="向卖家发送消息" width="30%" >
-            <el-input v-model="msg" placeholder="请输入消息内容" />
-            <div style="display:flex;justify-content: end;padding-top: 10px;">
-              <el-button type="primary" class="button" size=“large” @click="sendMsg(index)">确认</el-button>
-            </div>
-          </el-dialog>
+          <el-button type="success" class="button" size="large" @click="show = true;curIndex=index">发送消息</el-button>
         </div>
         <el-divider></el-divider>
       </div>
     </transition-group>
+    <el-dialog v-model="showComment" title="请添加对卖家的评论" width="30%">
+      <el-input v-model="comment" placeholder="请输入评论内容" />
+      <div style="display:flex;justify-content: end;padding-top: 10px;" :modal="false">
+        <el-button type="primary" class=“button” size=“large” @click="confirmReceive()">确认</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog v-model="show" title="向卖家发送消息" width="30%">
+      <el-input v-model="msg" placeholder="请输入消息内容" />
+      <div style="display:flex;justify-content: end;padding-top: 10px;">
+        <el-button type="primary" class="button" size=“large” @click="sendMsg()">确认</el-button>
+      </div>
+    </el-dialog>
   </el-container>
 </template>
   
@@ -69,6 +69,7 @@ export default {
       comment: "",
       items: [],
       loading: true,
+      curIndex:0,
     }
   },
   methods: {
@@ -76,13 +77,13 @@ export default {
       let num = Number(str);
       return isNaN(num) ? str : num.toFixed(2);
     },
-    confirmReceive(index) {
+    confirmReceive() {
       if (this.comment === "") {
         ElMessage({ message: "评论不能为空", type: "error" })
         return;
       }
       this.$http.post("/api/confirm", {
-        item_id: this.items[index].id,
+        item_id: this.items[this.curIndex].id,
         content: this.comment
       }).then().catch(error => {
         ElMessage({ message: error, type: "error" })
@@ -90,15 +91,15 @@ export default {
       this.showComment = false;
       this.comment = "";
       ElMessage({ message: "确认收货成功", type: "success" })
-      this.items.splice(index, 1);
+      this.items.splice(this.curIndex, 1);
     },
-    sendMsg(index) {
+    sendMsg() {
       if (this.msg === "") {
         ElMessage({ message: "消息内容不能为空", type: "error" })
         return;
       }
       this.$http.post("/api/sendMsg", {
-        item_id: this.items[index].id,
+        item_id: this.items[this.curIndex].id,
         content: this.msg,
         from_which: 0
       }).then().catch(error => {
@@ -145,6 +146,7 @@ export default {
   height: 100%;
   width: auto;
 }
+
 .list-item {
   transition: all 0.5s ease;
 }
