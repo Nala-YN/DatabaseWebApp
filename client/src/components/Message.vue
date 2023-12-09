@@ -115,12 +115,6 @@ export default {
         }).catch(error => {
             ElMessage({ message: error, type: "error" })
         })
-        /*         axios.get('/api/getBuyerMsgs').then(res => {
-                    this.buyerMessages = res.data.list
-                }).catch(console.log("JI"))
-                axios.get('/api/getSellerMsgs').then(res => {
-                    this.sellerMessages = res.data.list
-                }).catch(console.log("JI"))  */
     }
 };
 </script>

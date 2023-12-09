@@ -4,7 +4,7 @@ import json
 import sys
 
 sys.path.append('../')
-from myApp.models import user_info
+from myApp.models import user_info, like
 from myApp.models import sell_book
 from myApp.models import post
 from myApp.models import message
@@ -479,6 +479,27 @@ def searchbooks(request):
     response = {'books': books}
     return JsonResponse(response)
 
+def addlike(request):
+    assert request.method=="POST"
+    request_dict=json.loads(request.body.decode('utf-8'))
+
+    like_id=request_dict['like_id']
+    liked_id=request_dict['liked_id']
+
+    alreadyHas=like.objects.filter(like_id=like_id,liked_userid=liked_id).count()!=0
+    if alreadyHas:
+        response={'success':False}
+    else:
+        response={'success':True}
+        max_id = like.objects.all().aggregate(Max('like_id'))  # 查询当前最大的id
+        if max_id['like_id__max'] is not None:
+            new_id = int(max_id['like_id__max']) + 1  # 若不为空，新id为最大id加1
+        else:
+            new_id = 1  # 若为空，id为1
+        like.objects.create(like_id=new_id,liked_userid=liked_id,like_userid=like_id)
+    return JsonResponse(response)
+
+
 
 # 获取在售书籍详细信息
 def getdetail(request):
@@ -501,11 +522,14 @@ def getdetail(request):
 
     seller_info = user_info.objects.filter(user_id=seller_id).values('user_name', 'user_address', 'user_campus',
                                                                      'user_phonenum')
+    #likecnt=like.objects.filter(liked_userid=seller_id).count()
 
     seller = {'name': seller_info[0]['user_name'],
               'phonenum': seller_info[0]['user_phonenum'],
               'campus': seller_info[0]['user_campus'],
-              'address': seller_info[0]['user_address']}
+              'address': seller_info[0]['user_address'],
+              #'likecnt': likecnt
+              }
 
     seller_comment = comment.objects.filter(commented_user_id=seller_id).values('comment_user_id', 'comment_date',
                                                                                 'comment_content')
@@ -833,6 +857,7 @@ def withdrawOnsale(request):
 
     response = {'success': True}
     return JsonResponse(response)
+
 
 
 

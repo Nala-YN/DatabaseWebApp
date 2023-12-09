@@ -83,7 +83,6 @@ export default {
       reader.readAsDataURL(file.file);
       reader.onload = () => {
         this.base64 = reader.result;
-        console.log(this.base64)
       }
     },
     handleUpload(file) {
@@ -100,7 +99,6 @@ export default {
       return true;
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
     },
     handleExceed() {
       ElMessage({ message: "只允许上传一张图片", type: "error" })

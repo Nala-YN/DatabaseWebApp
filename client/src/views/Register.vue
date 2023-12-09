@@ -122,8 +122,6 @@ export default {
           }
         })
         .catch((error) => {
-          // 处理网络请求失败等情况
-          console.error('注册失败：', error);
           ElMessage({ message: "注册失败，请稍后重试" });
           this.step=1;
         });

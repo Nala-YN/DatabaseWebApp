@@ -70,7 +70,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.id);
     this.$http.post("/api/getdetail",{
       book_id:this.id
     }).then(response=>{

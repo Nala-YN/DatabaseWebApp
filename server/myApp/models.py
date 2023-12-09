@@ -38,7 +38,12 @@ class post(models.Model):
     class Meta:
         db_table = 'post'
 
-
+class like(models.Model):
+    like_id=models.IntegerField(primary_key=True)
+    like_userid=models.ForeignKey(user_info,related_name="like",on_delete=models.CASCADE)
+    liked_userid=models.ForeignKey(user_info,related_name="liked",on_delete=models.CASCADE)
+    class Meta:
+        db_table='like'
 class message(models.Model):
     message_id = models.IntegerField(primary_key=True)
     from_solder = models.IntegerField()
@@ -46,7 +51,6 @@ class message(models.Model):
     receive = models.ForeignKey(user_info, related_name='+', on_delete=models.CASCADE)
     message_time = models.DateField(auto_now=True)
     message_content = models.CharField(max_length=256)
-
     class Meta:
         db_table = 'message'
 

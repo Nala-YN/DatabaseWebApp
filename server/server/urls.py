@@ -46,5 +46,6 @@ urlpatterns = [
     path('api/buyAll', LoginView.buyAll),
     path('api/getsold', LoginView.getsold),
     path('api/getOnsale', LoginView.getOnsale),
-    path('api/withdrawOnsale', LoginView.withdrawOnsale)
+    path('api/withdrawOnsale', LoginView.withdrawOnsale),
+    path('api/addlike',LoginView.addlike)
 ]
